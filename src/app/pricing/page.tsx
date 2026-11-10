@@ -4,17 +4,21 @@ import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
 import { FaqSection } from '@/components/sections/faq-section';
 import { PLANS, FEATURE_MATRIX, PRICING_FAQ } from '@/content/pricing';
+import { JsonLd } from '@/components/seo/json-ld';
+import { getPricingFaqSchema } from '@/lib/schema';
 import { Check, ShieldCheck, Sparkles, Server } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Pricing & Licensing',
   description: 'Transparent pricing for BugFence. Start free with the self-hosted Community Edition or scale with Enterprise offline licensing.',
-  alternates: { canonical: '/pricing' },
+  alternates: { canonical: '/pricing/' },
 };
 
 export default function PricingPage() {
   return (
     <>
+      <JsonLd schema={getPricingFaqSchema()} />
+
       <PageHeader
         eyebrow="Licensing & Tiers"
         title="Privacy-First Triage. Transparent Pricing."
@@ -134,7 +138,7 @@ export default function PricingPage() {
             </div>
           </div>
           <div className="mt-4 sm:mt-0 sm:shrink-0">
-            <ButtonLink href="/security" variant="secondary" className="w-full sm:w-auto">
+            <ButtonLink href="/security/" variant="secondary" className="w-full sm:w-auto">
               Read Security Whitepaper
             </ButtonLink>
           </div>

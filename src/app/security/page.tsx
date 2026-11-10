@@ -14,14 +14,18 @@ import {
   FileCode,
   CheckCircle2,
   AlertTriangle,
-  ArrowRight,
   Terminal,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Security Architecture & Privacy Guarantees',
   description: 'Technical breakdown of BugFence privacy model: browser-side DOMFence masking, offline licensing, self-hosted VPC storage, and honest limitations.',
-  alternates: { canonical: '/security' },
+  alternates: { canonical: '/security/' },
+  openGraph: {
+    title: 'Security Architecture & Privacy Guarantees - BugFence',
+    description: 'Technical breakdown of BugFence privacy model: browser-side DOMFence masking, offline licensing, and VPC storage.',
+    url: '/security/',
+  },
 };
 
 export default function SecurityPage() {
@@ -195,8 +199,8 @@ export default function SecurityPage() {
             Our team regularly assists enterprise security, compliance, and DevSecOps teams with VPC deployment architecture.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <ButtonLink href="/contact?topic=security">Request Security Consultation</ButtonLink>
-            <ButtonLink href="/dpa" variant="secondary">View Data Processing Addendum</ButtonLink>
+            <ButtonLink href="/contact/?topic=security">Request Security Consultation</ButtonLink>
+            <ButtonLink href="/dpa/" variant="secondary">View Data Processing Addendum</ButtonLink>
           </div>
         </div>
       </Container>

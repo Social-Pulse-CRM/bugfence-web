@@ -5,9 +5,14 @@ import { ButtonLink } from '@/components/ui/button';
 import { Check, Shield, Cpu, Lock, Terminal, ExternalLink, HeartHandshake } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'How BugFence Compares',
+  title: 'How BugFence Compares to Sentry, Jam, & Marker.io',
   description: 'A transparent, respectful comparison of BugFence with Sentry, Jam, Marker.io, BugHerd, and LogRocket.',
-  alternates: { canonical: '/compare' },
+  alternates: { canonical: '/compare/' },
+  openGraph: {
+    title: 'How BugFence Compares - Sentry, Jam, Marker.io, BugHerd',
+    description: 'Respectful technical comparison: in-app widget vs extension, self-hosted VPC vs multi-tenant cloud.',
+    url: '/compare/',
+  },
 };
 
 const PILLARS = [
@@ -215,7 +220,7 @@ export default function ComparePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <ButtonLink href="/#install">Get Started with Community</ButtonLink>
-            <ButtonLink href="/contact" variant="secondary">Request Enterprise Consultation</ButtonLink>
+            <ButtonLink href="/contact/" variant="secondary">Request Enterprise Consultation</ButtonLink>
           </div>
         </div>
       </Container>

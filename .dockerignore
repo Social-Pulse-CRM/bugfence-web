@@ -1,0 +1,28 @@
+# Version Control & CI
+.git
+.github
+.gitignore
+
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Next.js Build Outputs
+.next
+out
+tsconfig.tsbuildinfo
+
+# Environment
+.env*
+!.env.example
+
+# Docs & Tests
+docs
+openspec
+tests
+vitest.config.mts
+README.md
+
+# OS Artifacts
+.DS_Store
+Thumbs.db

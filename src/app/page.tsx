@@ -12,11 +12,17 @@ import { Section } from '@/components/ui/section';
 import { ButtonLink } from '@/components/ui/button';
 import { RedactionDemo } from '@/features/redaction-demo/redaction-demo';
 import { FAQ } from '@/content/home';
+import { JsonLd } from '@/components/seo/json-ld';
+import { getOrganizationSchema, getSoftwareApplicationSchema, getHomeFaqSchema } from '@/lib/schema';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd schema={getOrganizationSchema()} />
+      <JsonLd schema={getSoftwareApplicationSchema()} />
+      <JsonLd schema={getHomeFaqSchema()} />
+
       <Hero />
       <PainPoints />
       <HowItWorks />
@@ -53,7 +59,7 @@ export default function HomePage() {
             <ButtonLink href="#install" className="text-base font-semibold px-6 py-3">
               Install the Widget
             </ButtonLink>
-            <ButtonLink href="/pricing" variant="secondary" className="text-base font-semibold px-6 py-3">
+            <ButtonLink href="/pricing/" variant="secondary" className="text-base font-semibold px-6 py-3">
               View Licensing & Pricing <ArrowRight className="size-4" />
             </ButtonLink>
           </div>

@@ -2,12 +2,17 @@ import type { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/page-header';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
-import { ShieldCheck, EyeOff, Bot, Server, Heart } from 'lucide-react';
+import { ShieldCheck, EyeOff, Bot, Server } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About BugFence',
   description: 'The story and engineering philosophy behind BugFence: privacy-first visual bug reporting for B2B SaaS.',
-  alternates: { canonical: '/about' },
+  alternates: { canonical: '/about/' },
+  openGraph: {
+    title: 'About BugFence - Privacy-First Visual Bug Reporting',
+    description: 'The story and engineering philosophy behind BugFence: privacy-first visual bug reporting for B2B SaaS.',
+    url: '/about/',
+  },
 };
 
 export default function AboutPage() {
@@ -82,7 +87,7 @@ export default function AboutPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <ButtonLink href="/#demo">Try Live Redaction Demo</ButtonLink>
-            <ButtonLink href="/pricing" variant="secondary">View Pricing & Editions</ButtonLink>
+            <ButtonLink href="/pricing/" variant="secondary">View Pricing & Editions</ButtonLink>
           </div>
         </section>
       </Container>
