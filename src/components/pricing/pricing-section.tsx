@@ -1,96 +1,157 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
-import { PLANS, FEATURE_MATRIX, Plan } from '@/content/pricing';
-import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus } from 'lucide-react';
+import { PLANS, getFeatureMatrix, Plan, Currency } from '@/content/pricing';
+import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus, Globe, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
 export function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [currency, setCurrency] = useState<Currency>('usd');
+  const [isClient, setIsClient] = useState(false);
+
+  // Privacy-first auto-detection: checks timezone & locale locally without third-party network pings
+  useEffect(() => {
+    setIsClient(true);
+    try {
+      const saved = localStorage.getItem('bugfence_currency') as Currency | null;
+      if (saved === 'usd' || saved === 'inr') {
+        setCurrency(saved);
+        return;
+      }
+
+      // Check timezone for Indian Standard Time (IST)
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta') {
+        setCurrency('inr');
+        return;
+      }
+
+      // Check language locale
+      const locale = navigator.language || (navigator.languages && navigator.languages[0]) || '';
+      if (locale.endsWith('-IN') || locale.toLowerCase().includes('in')) {
+        setCurrency('inr');
+      }
+    } catch {
+      // Default to USD if localStorage or Intl is blocked
+    }
+  }, []);
+
+  const handleCurrencyChange = (c: Currency) => {
+    setCurrency(c);
+    try {
+      localStorage.setItem('bugfence_currency', c);
+    } catch {
+      // ignore
+    }
+  };
+
+  const featureMatrix = getFeatureMatrix(currency);
 
   return (
     <Container className="py-12">
-      {/* Interactive Billing Cadence Toggle */}
-      <div className="mb-14 flex flex-col items-center justify-center gap-3">
-        <div
-          role="radiogroup"
-          aria-label="Billing cycle selection"
-          className="inline-flex items-center rounded-full border border-border bg-surface p-1 shadow-xs"
-        >
-          <button
-            type="button"
-            role="radio"
-            aria-checked={!isAnnual}
-            onClick={() => setIsAnnual(false)}
-            className={cn(
-              'cursor-pointer rounded-full px-5 py-2 text-sm font-semibold transition-all',
-              !isAnnual
-                ? 'bg-elevated text-fg shadow-sm'
-                : 'text-muted hover:text-fg'
-            )}
+      {/* Controls Bar: Currency Switcher + Billing Cadence Toggle */}
+      <div className="mb-14 flex flex-col items-center justify-center gap-5">
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {/* Currency Toggle (USD $ vs INR ₹) */}
+          <div
+            role="radiogroup"
+            aria-label="Currency selection"
+            className="inline-flex items-center rounded-full border border-border bg-surface p-1 shadow-2xs"
           >
-            Monthly billing
-          </button>
-          <button
-            type="button"
-            role="radio"
-            aria-checked={isAnnual}
-            onClick={() => setIsAnnual(true)}
-            className={cn(
-              'inline-flex cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-all',
-              isAnnual
-                ? 'bg-elevated text-fg shadow-sm'
-                : 'text-muted hover:text-fg'
-            )}
+            <button
+              type="button"
+              role="radio"
+              aria-checked={currency === 'usd'}
+              onClick={() => handleCurrencyChange('usd')}
+              className={cn(
+                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                currency === 'usd'
+                  ? 'bg-elevated text-fg shadow-2xs'
+                  : 'text-muted hover:text-fg'
+              )}
+            >
+              <span>🇺🇸</span>
+              <span>USD ($)</span>
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={currency === 'inr'}
+              onClick={() => handleCurrencyChange('inr')}
+              className={cn(
+                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                currency === 'inr'
+                  ? 'bg-elevated text-fg shadow-2xs'
+                  : 'text-muted hover:text-fg'
+              )}
+            >
+              <span>🇮🇳</span>
+              <span>INR (₹)</span>
+            </button>
+          </div>
+
+          {/* Billing Cadence Toggle (Monthly vs Annual) */}
+          <div
+            role="radiogroup"
+            aria-label="Billing cycle selection"
+            className="inline-flex items-center rounded-full border border-border bg-surface p-1 shadow-2xs"
           >
-            <span>Annual billing</span>
-            <span className="inline-flex items-center rounded-full bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent">
-              Save ~20%
-            </span>
-          </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={!isAnnual}
+              onClick={() => setIsAnnual(false)}
+              className={cn(
+                'cursor-pointer rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                !isAnnual
+                  ? 'bg-elevated text-fg shadow-2xs'
+                  : 'text-muted hover:text-fg'
+              )}
+            >
+              Monthly billing
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={isAnnual}
+              onClick={() => setIsAnnual(true)}
+              className={cn(
+                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                isAnnual
+                  ? 'bg-elevated text-fg shadow-2xs'
+                  : 'text-muted hover:text-fg'
+              )}
+            >
+              <span>Annual billing</span>
+              <span className="inline-flex items-center rounded-full bg-accent/15 px-2 py-0.2 text-[10px] font-bold text-accent">
+                Save ~20%
+              </span>
+            </button>
+          </div>
         </div>
-        <p className="text-xs text-muted">
-          {isAnnual
-            ? 'Annual billing active: roughly 2 months free with upfront yearly discount.'
-            : 'Monthly billing active. Switch to annual billing to save ~20%.'}
+
+        {/* Currency & Tax Notice */}
+        <p className="text-xs text-muted text-center max-w-lg">
+          {currency === 'inr' ? (
+            <span className="inline-flex items-center gap-1.5">
+              <span>🇮🇳 Indian billing via <strong>Razorpay</strong> (UPI, Netbanking, Cards) · <strong>18% GST invoice</strong> with GSTIN provided.</span>
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5">
+              <span>🇺🇸 Global billing via <strong>Stripe</strong> (All major international credit cards, Apple Pay, Google Pay).</span>
+            </span>
+          )}
         </p>
       </div>
 
       {/* 4-Card Responsive Pricing Grid */}
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {PLANS.map((plan: Plan) => {
-          const displayPrice =
-            plan.monthlyPrice === null
-              ? 'Custom'
-              : plan.monthlyPrice === 0
-              ? '$0'
-              : isAnnual
-              ? `$${plan.yearlyPrice}`
-              : `$${plan.monthlyPrice}`;
-
-          const displayPeriod =
-            plan.monthlyPrice === null
-              ? ''
-              : plan.monthlyPrice === 0
-              ? '/ month'
-              : isAnnual
-              ? '/ year'
-              : '/ month';
-
-          const subtext =
-            plan.id === 'free'
-              ? 'Forever free'
-              : plan.id === 'pro'
-              ? isAnnual
-                ? 'Equivalent to ~$11.60/mo'
-                : 'Billed monthly'
-              : plan.id === 'business'
-              ? isAnnual
-                ? 'Equivalent to ~$32.50/mo'
-                : 'Billed monthly'
-              : 'Annual or custom contract';
+          const pricingInfo = plan.pricing[currency];
+          const activePricing = isAnnual ? pricingInfo.yearly : pricingInfo.monthly;
 
           return (
             <section
@@ -135,19 +196,21 @@ export function PricingSection() {
                 <div className="mt-5">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-4xl font-extrabold tracking-tight text-fg">
-                      {displayPrice}
+                      {activePricing.formatted}
                     </span>
-                    <span className="text-xs font-medium text-muted">{displayPeriod}</span>
+                    <span className="text-xs font-medium text-muted">{activePricing.period}</span>
                   </div>
 
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="text-xs text-muted">{subtext}</span>
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
+                    <span className="text-xs text-muted">{activePricing.subtext}</span>
                     {isAnnual && (plan.id === 'pro' || plan.id === 'business') && (
                       <span className="inline-flex rounded-sm bg-accent/15 px-1.5 py-0.2 text-[11px] font-semibold text-accent">
                         Save ~20%
                       </span>
                     )}
                   </div>
+
+                  <p className="mt-1 text-[11px] text-muted/80">{pricingInfo.taxNote}</p>
                 </div>
 
                 <p className="mt-4 text-xs leading-relaxed text-muted min-h-[3.5rem]">
@@ -172,8 +235,14 @@ export function PricingSection() {
                 </ul>
               </div>
 
+              {/* Payment Gateway Pill */}
+              <div className="mt-5 rounded-md border border-border/70 bg-elevated/40 p-2 text-[10px] text-muted flex items-center gap-1.5">
+                <CreditCard className="size-3 text-accent shrink-0" />
+                <span>{pricingInfo.gateway}</span>
+              </div>
+
               {/* Call to Action */}
-              <div className="mt-7 pt-2">
+              <div className="mt-4 pt-2">
                 <ButtonLink
                   href={plan.cta.href}
                   variant={plan.highlight ? 'primary' : 'secondary'}
@@ -221,7 +290,7 @@ export function PricingSection() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {FEATURE_MATRIX.map((group) => (
+              {featureMatrix.map((group) => (
                 <tr key={group.category} className="contents">
                   <td
                     colSpan={5}
