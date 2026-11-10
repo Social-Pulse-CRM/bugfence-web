@@ -19,7 +19,7 @@ export interface Plan {
   name: string;
   cadence: string;
   blurb: string;
-  cta: { label: string; href: string };
+  cta: { label: string; href?: string; action?: 'link' | 'checkout' };
   highlight: boolean;
   badge?: string;
   pricing: Record<Currency, PlanCurrencyPricing>;
@@ -32,7 +32,7 @@ export const PLANS: Plan[] = [
     name: 'Free',
     cadence: 'Forever free · Open Core',
     blurb: 'For trying BugFence on a side project or single-team self-hosting. 100% private on your own infrastructure.',
-    cta: { label: 'Get Started Free', href: '/#install' },
+    cta: { label: 'Get Started Free', href: '/#install', action: 'link' },
     highlight: false,
     badge: 'Self-Hosted Core',
     pricing: {
@@ -67,7 +67,7 @@ export const PLANS: Plan[] = [
     name: 'Pro',
     cadence: 'For fast-moving engineering teams',
     blurb: 'For engineering teams shipping every week with multi-project tracking, automated AI triage, and tracker sync.',
-    cta: { label: 'Upgrade to Pro', href: '/contact?topic=pro' },
+    cta: { label: 'Upgrade to Pro', action: 'checkout' },
     highlight: true,
     badge: 'Most Popular',
     pricing: {
@@ -102,7 +102,7 @@ export const PLANS: Plan[] = [
     name: 'Business',
     cadence: 'For scaling companies & agencies',
     blurb: 'For scaling companies with many applications, high volume, Single Sign-On, and enterprise compliance needs.',
-    cta: { label: 'Get Business', href: '/contact?topic=business' },
+    cta: { label: 'Upgrade to Business', action: 'checkout' },
     highlight: false,
     badge: 'Scale & Teams',
     pricing: {
@@ -128,40 +128,43 @@ export const PLANS: Plan[] = [
       'Cross-issue semantic clustering & duplicate deduplication',
       '100% White-Label: custom logo, custom domain & email styling',
       'Sentry, Datadog, PagerDuty & HMAC-signed webhooks',
-      'Priority 12h email & Slack triage support',
+      'Automated PII scrubbing verification audits',
+      '12h priority email & Slack triage channel',
     ],
   },
   {
     id: 'enterprise',
     name: 'Enterprise Custom',
-    cadence: 'Air-gapped VPC or Dedicated Cloud',
-    blurb: 'Custom volume, private VPC isolation, offline cryptographic licensing, and 1-hour critical response SLAs.',
-    cta: { label: 'Contact Sales', href: '/contact?topic=enterprise' },
+    cadence: 'For air-gapped VPCs & regulated orgs',
+    blurb: 'Complete sovereignty for organizations with strict compliance, SOC 2/HIPAA BAAs, and offline air-gapped networks.',
+    cta: { label: 'Contact Enterprise Sales', href: '/contact?topic=enterprise', action: 'link' },
     highlight: false,
-    badge: 'Private VPC & Air-Gap',
+    badge: 'Air-Gapped & VPC',
     pricing: {
       usd: {
-        monthly: { amount: null, formatted: 'Custom', period: '', subtext: 'Invoiced annually or monthly' },
-        yearly: { amount: null, formatted: 'Custom', period: '', subtext: 'Annual contract agreement' },
-        taxNote: 'Custom MSA & SLA agreement',
-        gateway: 'Wire, ACH, or Corporate Invoicing',
+        monthly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
+        yearly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
+        taxNote: 'Custom MSA & Vendor Procurement',
+        gateway: 'Direct Wire / ACH Transfer',
       },
       inr: {
-        monthly: { amount: null, formatted: 'Custom', period: '', subtext: 'Invoiced annually or monthly' },
-        yearly: { amount: null, formatted: 'Custom', period: '', subtext: 'Annual contract agreement' },
-        taxNote: 'Compliant GST Invoicing & TDS credits',
-        gateway: 'NEFT, RTGS, Corporate Cards',
+        monthly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
+        yearly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
+        taxNote: 'Includes full GST B2B tax invoice',
+        gateway: 'Bank Transfer (NEFT / RTGS / Corporate Wire)',
       },
     },
     features: [
-      'Unlimited projects & custom seats (500+ included)',
-      'Unlimited monthly reports & custom retention (up to 730+ days)',
-      '100% offline cryptographically signed license (BFLIC..., zero phone-home)',
-      'Air-gapped VPC deployment (AWS, GCP, Azure, on-premise)',
-      'Dedicated private LLM endpoint (Azure OpenAI / private Ollama)',
-      'Enterprise MCP Gateway with audit logging & IP allowlisting',
-      'HIPAA BAA, SOC 2 compliance support & enterprise audit trail',
-      '1-hour critical response SLA & named Customer Success Manager',
+      'Unlimited projects & teams',
+      'Custom seat volume (500+ triagers)',
+      'Unlimited monthly report ingestion',
+      'Custom data & video retention policies',
+      'Air-gapped private VPC deployment',
+      '100% Offline Cryptographic Licence (BFLIC token)',
+      'Zero outbound network telemetry guaranteed',
+      'HIPAA BAA & SOC 2 Type II compliance pack',
+      'Custom SAML 2.0 identity federation',
+      '1-hour critical response SLA & dedicated solutions engineer',
     ],
   },
 ];
@@ -269,7 +272,7 @@ export const PRICING_FAQ = [
   },
   {
     q: 'What is a "guest reporter" and why are they free?',
-    a: 'A guest reporter is any QA tester, client, stakeholder, or end-user who submits a bug report through the widget or views the status of bugs they reported. Pro and Business include unlimited guest reporters for $0. Only team members who triage issues, configure integrations, or access the full admin dashboard require paid seats.',
+    a: 'A guest reporter is any QA tester, client, stakeholder, or end-user who submits a bug report through the widget or views the status of bugs they reported. Pro and Business include unlimited guest reporters at zero cost ($0 / ₹0). Only team members who triage issues, configure integrations, or access the full admin dashboard require paid seats.',
   },
   {
     q: 'What happens if our team exceeds our monthly report cap?',
@@ -279,8 +282,4 @@ export const PRICING_FAQ = [
     q: 'How does the offline enterprise licence work (BFLIC token)?',
     a: 'BugFence Enterprise uses cryptographically signed JWT tokens (formatted as BFLIC.<payload>.<hmac_sha256>). Your on-premise or VPC server verifies the token signature completely offline using a local verification key. It makes zero outbound phone-home network requests, guaranteeing strict compliance in defense, healthcare, and air-gapped banking networks.',
   },
-  {
-    q: 'Can I start self-hosting on Free and upgrade later?',
-    a: 'Yes. Upgrading requires zero database migrations or downtime. Simply configure your license token or cloud organization key in your environment. All your existing issue clusters, DOM recordings, and diagnostics remain intact.',
-  },
-] as const;
+];

@@ -1,57 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
+import { CheckoutModal } from './checkout-modal';
 import { PLANS, getFeatureMatrix, Plan, Currency } from '@/content/pricing';
-import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus, Globe, CreditCard } from 'lucide-react';
+import { useCurrency } from '@/lib/currency';
+import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus, CreditCard, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
 export function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(true);
-  const [currency, setCurrency] = useState<Currency>('usd');
-  const [isClient, setIsClient] = useState(false);
-
-  // Privacy-first auto-detection: checks timezone & locale locally without third-party network pings
-  useEffect(() => {
-    setIsClient(true);
-    try {
-      const saved = localStorage.getItem('bugfence_currency') as Currency | null;
-      if (saved === 'usd' || saved === 'inr') {
-        setCurrency(saved);
-        return;
-      }
-
-      // Check timezone for Indian Standard Time (IST)
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta') {
-        setCurrency('inr');
-        return;
-      }
-
-      // Check language locale
-      const locale = navigator.language || (navigator.languages && navigator.languages[0]) || '';
-      if (locale.endsWith('-IN') || locale.toLowerCase().includes('in')) {
-        setCurrency('inr');
-      }
-    } catch {
-      // Default to USD if localStorage or Intl is blocked
-    }
-  }, []);
-
-  const handleCurrencyChange = (c: Currency) => {
-    setCurrency(c);
-    try {
-      localStorage.setItem('bugfence_currency', c);
-    } catch {
-      // ignore
-    }
-  };
+  const { currency, setCurrency } = useCurrency();
+  const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
 
   const featureMatrix = getFeatureMatrix(currency);
 
+  const handlePlanCta = (plan: Plan) => {
+    if (plan.cta.action === 'checkout') {
+      setCheckoutPlan(plan);
+    }
+  };
+
   return (
     <Container className="py-12">
+      {/* Checkout Modal when triggered */}
+      {checkoutPlan && (
+        <CheckoutModal
+          plan={checkoutPlan}
+          currency={currency}
+          isAnnual={isAnnual}
+          onClose={() => setCheckoutPlan(null)}
+          onCurrencyChange={setCurrency}
+          onCadenceChange={setIsAnnual}
+        />
+      )}
+
       {/* Controls Bar: Currency Switcher + Billing Cadence Toggle */}
       <div className="mb-14 flex flex-col items-center justify-center gap-5">
         <div className="flex flex-wrap items-center justify-center gap-4">
@@ -65,7 +49,7 @@ export function PricingSection() {
               type="button"
               role="radio"
               aria-checked={currency === 'usd'}
-              onClick={() => handleCurrencyChange('usd')}
+              onClick={() => setCurrency('usd')}
               className={cn(
                 'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
                 currency === 'usd'
@@ -80,7 +64,7 @@ export function PricingSection() {
               type="button"
               role="radio"
               aria-checked={currency === 'inr'}
-              onClick={() => handleCurrencyChange('inr')}
+              onClick={() => setCurrency('inr')}
               className={cn(
                 'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
                 currency === 'inr'
@@ -243,13 +227,29 @@ export function PricingSection() {
 
               {/* Call to Action */}
               <div className="mt-4 pt-2">
-                <ButtonLink
-                  href={plan.cta.href}
-                  variant={plan.highlight ? 'primary' : 'secondary'}
-                  className="w-full text-sm font-semibold"
-                >
-                  {plan.cta.label}
-                </ButtonLink>
+                {plan.cta.action === 'checkout' ? (
+                  <button
+                    type="button"
+                    onClick={() => handlePlanCta(plan)}
+                    className={cn(
+                      'inline-flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all shadow-sm',
+                      plan.highlight
+                        ? 'bg-accent text-accent-fg hover:opacity-90 shadow-accent/20'
+                        : 'border border-border bg-elevated text-fg hover:bg-surface'
+                    )}
+                  >
+                    <span>{plan.cta.label}</span>
+                    <ArrowRight className="size-4" />
+                  </button>
+                ) : (
+                  <ButtonLink
+                    href={plan.cta.href || '/#install'}
+                    variant={plan.highlight ? 'primary' : 'secondary'}
+                    className="w-full text-sm font-semibold"
+                  >
+                    {plan.cta.label}
+                  </ButtonLink>
+                )}
               </div>
             </section>
           );
@@ -258,103 +258,47 @@ export function PricingSection() {
 
       {/* Side-by-Side Comprehensive Feature Matrix */}
       <div className="mt-24">
-        <div className="mb-10 text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent">Feature Matrix</p>
-          <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
-            Compare BugFence Editions Side-by-Side
+        <div className="mb-8 text-center max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl text-fg">
+            Detailed Feature Comparison Matrix
           </h2>
-          <p className="mt-2 text-sm text-muted max-w-2xl mx-auto">
-            Zero paywalled diagnostics. Full console, network stack, and client-side PII redactions are included in every tier.
+          <p className="mt-2 text-sm text-muted">
+            Inspect all technical features, retention limits, and integrations side by side across tiers.
           </p>
         </div>
 
         <div className="overflow-x-auto rounded-card border border-border bg-surface">
-          <table className="w-full min-w-[840px] border-collapse text-left text-xs sm:text-sm">
+          <table className="w-full min-w-[700px] border-collapse text-left text-xs">
             <thead>
               <tr className="border-b border-border bg-elevated/70">
-                <th scope="col" className="p-4 font-semibold text-fg w-1/3">
-                  Capability / Limit
-                </th>
-                <th scope="col" className="p-4 font-semibold text-fg w-1/6">
-                  Free
-                </th>
-                <th scope="col" className="p-4 font-semibold text-accent w-1/6 bg-accent/5 border-x border-accent/20">
-                  Pro
-                </th>
-                <th scope="col" className="p-4 font-semibold text-fg w-1/6">
-                  Business
-                </th>
-                <th scope="col" className="p-4 font-semibold text-fg w-1/6">
-                  Enterprise
-                </th>
+                <th scope="col" className="p-3.5 font-semibold text-fg">Capability</th>
+                <th scope="col" className="p-3.5 font-semibold text-fg">Free</th>
+                <th scope="col" className="p-3.5 font-bold text-accent">Pro (Most Popular)</th>
+                <th scope="col" className="p-3.5 font-semibold text-fg">Business</th>
+                <th scope="col" className="p-3.5 font-semibold text-fg">Enterprise</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
-              {featureMatrix.map((group) => (
-                <tr key={group.category} className="contents">
-                  <td
-                    colSpan={5}
-                    className="border-b border-t border-border bg-elevated/50 px-4 py-2.5 font-bold text-fg uppercase tracking-wider text-xs"
-                  >
-                    {group.category}
-                  </td>
-                  {group.items.map((item) => (
-                    <tr key={item.name} className="hover:bg-elevated/20 transition-colors">
-                      <td className="p-4 font-medium text-fg">{item.name}</td>
-                      <td className="p-4 text-muted">
-                        {item.free === '—' ? (
-                          <Minus className="size-4 text-muted/50" />
-                        ) : (
-                          item.free
-                        )}
-                      </td>
-                      <td className="p-4 font-semibold text-accent bg-accent/5 border-x border-accent/20">
-                        {item.pro === '—' ? (
-                          <Minus className="size-4 text-muted/50" />
-                        ) : (
-                          item.pro
-                        )}
-                      </td>
-                      <td className="p-4 text-muted">
-                        {item.business === '—' ? (
-                          <Minus className="size-4 text-muted/50" />
-                        ) : (
-                          item.business
-                        )}
-                      </td>
-                      <td className="p-4 font-medium text-fg">
-                        {item.enterprise === '—' ? (
-                          <Minus className="size-4 text-muted/50" />
-                        ) : (
-                          item.enterprise
-                        )}
-                      </td>
+            <tbody>
+              {featureMatrix.map((cat) => (
+                <tr key={cat.category} className="contents">
+                  <tr className="bg-elevated/30 border-y border-border">
+                    <td colSpan={5} className="p-2.5 font-bold uppercase tracking-wider text-[11px] text-accent">
+                      {cat.category}
+                    </td>
+                  </tr>
+                  {cat.items.map((item) => (
+                    <tr key={item.name} className="border-b border-border/60 hover:bg-elevated/15 transition-colors">
+                      <td className="p-3 font-medium text-fg">{item.name}</td>
+                      <td className="p-3 text-muted">{item.free}</td>
+                      <td className="p-3 font-semibold text-accent">{item.pro}</td>
+                      <td className="p-3 text-fg">{item.business}</td>
+                      <td className="p-3 text-fg">{item.enterprise}</td>
                     </tr>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Security Guarantee Box */}
-      <div className="mt-14 rounded-card border border-border bg-elevated/40 p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
-        <div className="flex items-center gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
-            <ShieldCheck className="size-6" />
-          </div>
-          <div>
-            <p className="font-semibold text-fg">Zero Third-Party Data Transmission Guarantee</p>
-            <p className="text-xs sm:text-sm text-muted">
-              BugFence runs within your security perimeter. We never harvest or sell sessions, diagnostic dumps, or customer credentials.
-            </p>
-          </div>
-        </div>
-        <div className="mt-4 sm:mt-0 sm:shrink-0">
-          <ButtonLink href="/security/" variant="secondary" className="w-full sm:w-auto text-xs sm:text-sm">
-            Read Security Whitepaper
-          </ButtonLink>
         </div>
       </div>
     </Container>

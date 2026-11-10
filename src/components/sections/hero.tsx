@@ -1,27 +1,27 @@
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
 import { WidgetMock } from '@/features/widget-mock/widget-mock';
-import { Shield, Terminal, ArrowRight, CheckCircle2, Lock, Sparkles } from 'lucide-react';
-import { env } from '@/lib/env';
+import { Shield, Terminal, ArrowRight, CheckCircle2, Lock, Sparkles, Server } from 'lucide-react';
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-16 pt-12 sm:pb-24 sm:pt-20">
-      {/* Subtle background glow effect */}
+    <section className="relative overflow-hidden pb-20 pt-12 sm:pb-28 sm:pt-20">
+      {/* Subtle radial ambient background glow */}
       <div
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 -translate-x-1/2 h-[500px] w-full max-w-7xl opacity-20 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 -translate-x-1/2 h-[550px] w-full max-w-7xl opacity-25 blur-3xl"
         style={{
           background: 'radial-gradient(circle at 50% 0%, var(--accent) 0%, transparent 70%)',
         }}
         aria-hidden="true"
       />
 
-      <Container className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
-        <div className="space-y-6">
-          {/* Release Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent shadow-sm">
+      <Container>
+        {/* Centered Top Value Proposition */}
+        <div className="mx-auto max-w-4xl text-center space-y-6">
+          {/* Eyebrow Pill */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-semibold text-accent shadow-sm">
             <Sparkles className="size-3.5" />
-            <span>Zero-Dependency TypeScript SDK • ~15 KB Lazy Core</span>
+            <span>Zero-Dependency TypeScript SDK · ~15 KB Lazy Core · Self-Hosted or Cloud</span>
           </div>
 
           {/* Main H1 */}
@@ -33,29 +33,29 @@ export function Hero() {
           </h1>
 
           {/* Subheading */}
-          <p className="max-w-xl text-lg leading-relaxed text-muted">
-            BugFence is a drop-in reporting studio with annotated screenshots, recordings, and DOM replay with full network & console logs. Sensitive credentials and PII are redacted in the browser before upload.
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted">
+            BugFence is an in-app reporting studio with annotated screenshots, recordings, and rolling 30-second DOM replay with full network & console logs. Sensitive credentials and PII are redacted directly in the browser before upload.
           </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <ButtonLink href="#install" className="text-base font-semibold shadow-lg shadow-accent/20">
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <ButtonLink href="#install" className="text-base font-semibold px-6 py-3 shadow-lg shadow-accent/20">
               <Terminal className="size-4" /> Install Widget
             </ButtonLink>
-            <ButtonLink href="#demo" variant="secondary" className="text-base font-semibold">
-              Interactive Demo <ArrowRight className="size-4" />
+            <ButtonLink href="/pricing/" variant="secondary" className="text-base font-semibold px-6 py-3">
+              View Plans & Pricing <ArrowRight className="size-4" />
             </ButtonLink>
           </div>
 
-          {/* Value Highlights */}
-          <div className="pt-4 border-t border-border/80">
-            <ul className="grid gap-2 sm:grid-cols-2 text-xs font-medium text-muted">
+          {/* Value Highlights Pill Bar */}
+          <div className="pt-4">
+            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-muted">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="size-4 text-accent shrink-0" />
                 <span>Zero extension wall: nothing for reporters to install</span>
               </li>
               <li className="flex items-center gap-2">
-                <Shield className="size-4 text-accent shrink-0" />
+                <Server className="size-4 text-accent shrink-0" />
                 <span>100% Self-hostable in your private VPC</span>
               </li>
               <li className="flex items-center gap-2">
@@ -70,15 +70,44 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Studio Simulation Mockup */}
-        <div className="relative">
-          <div className="mb-2 flex items-center justify-end text-[11px] text-muted">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-elevated border border-border px-2.5 py-0.5 shadow-2xs font-medium">
-              <Sparkles className="size-3 text-accent" /> Interactive Studio Mock — click tabs &amp; tools
-            </span>
+        {/* Proper Full-Width Interactive Studio Showcase */}
+        <div className="relative mt-12 w-full max-w-6xl mx-auto">
+          {/* Subtle Outer Glow */}
+          <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-radial from-accent/20 via-secondary/10 to-transparent blur-2xl opacity-50" />
+
+          {/* Browser Window Chrome Wrapper */}
+          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+            {/* Window Titlebar */}
+            <div className="flex items-center justify-between border-b border-border bg-elevated/80 px-4 py-2.5 text-xs">
+              {/* Traffic light window dots */}
+              <div className="flex items-center gap-2">
+                <span className="size-3 rounded-full bg-[#ff5f56] border border-black/10 inline-block" />
+                <span className="size-3 rounded-full bg-[#ffbd2e] border border-black/10 inline-block" />
+                <span className="size-3 rounded-full bg-[#27c93f] border border-black/10 inline-block" />
+              </div>
+
+              {/* URL address pill */}
+              <div className="flex items-center gap-2 rounded-full border border-border/80 bg-surface px-4 py-1 text-[11px] font-mono text-muted shadow-inner">
+                <Lock className="size-3 text-accent" />
+                <span className="text-fg font-medium">https://app.yourcompany.com/billing/checkout</span>
+              </div>
+
+              {/* Live Sandbox Indicator */}
+              <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted">
+                <span className="size-2 rounded-full bg-accent animate-pulse" />
+                <span className="hidden sm:inline">Interactive Studio Sandbox</span>
+              </div>
+            </div>
+
+            {/* Embedded Reporting Studio with Proper Spacious Width */}
+            <WidgetMock />
           </div>
-          <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-radial from-accent/20 via-secondary/10 to-transparent blur-2xl opacity-60" />
-          <WidgetMock />
+
+          {/* Interactive Hint */}
+          <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted">
+            <Sparkles className="size-3.5 text-accent" />
+            <span>Interactive Demo: Click tools, switch between Screenshot / Video / Session Replay, or toggle USD / INR.</span>
+          </div>
         </div>
       </Container>
     </section>

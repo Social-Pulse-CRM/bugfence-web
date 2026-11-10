@@ -65,7 +65,7 @@ export function Header() {
             </ButtonLink>
           )}
 
-          <ButtonLink href="/contact" className="hidden sm:inline-flex text-xs font-semibold shadow-sm">
+          <ButtonLink href="/pricing" className="hidden sm:inline-flex text-xs font-semibold shadow-sm">
             Get Started
           </ButtonLink>
         </div>
