@@ -53,7 +53,7 @@ export function getSoftwareApplicationSchema() {
     offers: [
       {
         '@type': 'Offer',
-        name: 'Community Edition',
+        name: 'Free Community Edition',
         price: '0',
         priceCurrency: 'USD',
         description: 'Complete visual bug reporting and triage for a single team. 100% self-hosted on your own infrastructure.',
@@ -62,12 +62,30 @@ export function getSoftwareApplicationSchema() {
       },
       {
         '@type': 'Offer',
-        name: 'Enterprise Edition',
+        name: 'Pro Edition',
+        price: '14',
+        priceCurrency: 'USD',
+        description: 'Developer edition with 5 projects, 25,000 reports/mo, 90-day retention, and 2-way sync with Linear and Jira.',
+        availability: 'https://schema.org/InStock',
+        url: `${env.siteUrl}/pricing/`,
+      },
+      {
+        '@type': 'Offer',
+        name: 'Business Edition',
+        price: '39',
+        priceCurrency: 'USD',
+        description: 'Scale and teams edition with 25 projects, 250,000 reports/mo, 100 seats, SSO, and 100% white-label custom domain.',
+        availability: 'https://schema.org/InStock',
+        url: `${env.siteUrl}/pricing/`,
+      },
+      {
+        '@type': 'Offer',
+        name: 'Enterprise Custom Edition',
         price: 'Custom',
         priceCurrency: 'USD',
         priceSpecification: {
           '@type': 'PriceSpecification',
-          description: 'Offline cryptographically signed licence token, private VPC scale, SAML 2.0 SSO, and priority SLA.',
+          description: 'Offline cryptographically signed BFLIC token, air-gapped private VPC scale, SAML 2.0 SSO, and priority 1h SLA.',
         },
         availability: 'https://schema.org/InStock',
         url: `${env.siteUrl}/contact/`,

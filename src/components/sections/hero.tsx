@@ -72,6 +72,12 @@ export function Hero() {
 
         {/* Studio Simulation Mockup */}
         <div className="relative">
+          <div className="mb-2 flex items-center justify-end text-[11px] text-muted">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-elevated border border-border px-2.5 py-0.5 shadow-2xs font-medium">
+              <Sparkles className="size-3 text-accent" /> Interactive Studio Mock — click tabs &amp; tools
+            </span>
+          </div>
+          <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-radial from-accent/20 via-secondary/10 to-transparent blur-2xl opacity-60" />
           <WidgetMock />
         </div>
       </Container>
