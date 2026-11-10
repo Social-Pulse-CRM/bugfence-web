@@ -1,40 +1,18 @@
 # ==============================================================================
-# Stage 1: Build Stage (Node.js 22 Alpine)
+# BugFence Web - Hardened Production Nginx Image
+# Serves pre-compiled static export (/app/out) on port 8080.
+# Run `npm run build` prior to `docker compose up -d --build`.
 # ==============================================================================
-FROM node:22-alpine AS builder
+FROM nginxinc/nginx-unprivileged:alpine-slim
 
-WORKDIR /app
-
-# Install security patches
-RUN apk update && apk upgrade --no-cache
-
-# Deterministic package install
-COPY package.json package-lock.json ./
-RUN npm ci --prefer-offline
-
-# Copy application source & config
-COPY tsconfig.json vitest.config.mts postcss.config.mjs next.config.ts next-env.d.ts ./
-COPY src ./src
-COPY public ./public
-
-ENV NODE_ENV=production
-
-# Compile static export to /app/out
-RUN npm run build
-
-# ==============================================================================
-# Stage 2: Hardened Unprivileged Production Stage (Nginx Alpine)
-# ==============================================================================
-FROM nginxinc/nginx-unprivileged:alpine-slim AS runner
-
-# Default unprivileged user UID 101 (nginx) is already active in base image
+# Default unprivileged user UID 101 (nginx) is active in base image
 USER nginx
 
 # Copy custom hardened Nginx configuration
 COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy compiled static export from builder
-COPY --from=builder --chown=nginx:nginx /app/out /usr/share/nginx/html
+# Copy statically exported website files
+COPY --chown=nginx:nginx out /usr/share/nginx/html
 
 # Expose unprivileged HTTP port
 EXPOSE 8080

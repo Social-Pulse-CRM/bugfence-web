@@ -9,7 +9,6 @@ npm-debug.log*
 
 # Next.js Build Outputs
 .next
-out
 tsconfig.tsbuildinfo
 
 # Environment
