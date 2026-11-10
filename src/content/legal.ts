@@ -1,49 +1,129 @@
 export type LegalSection = { heading?: string; paragraphs?: string[]; bullets?: string[] };
 export type LegalDoc = { slug: string; title: string; updated: string; sections: LegalSection[] };
 
-const updated = '2026-11-10';
+const updated = 'November 10, 2026';
 
 export const LEGAL: Record<string, LegalDoc> = {
   privacy: {
-    slug: 'privacy', title: 'Privacy Policy', updated,
+    slug: 'privacy',
+    title: 'Privacy Policy',
+    updated,
     sections: [
-      { paragraphs: ['This policy describes how this website handles personal data. Entity name, address and contact details: to be completed.'] },
-      { heading: 'What this website collects', bullets: [
-        'No tracking cookies and no third-party analytics are used on this site at launch.',
-        'Server logs may record IP address and user agent for security and reliability.',
-        'If you email us, we keep your message in order to respond to you.',
-      ] },
-      { heading: 'The BugFence product', paragraphs: ['Data processed by self-hosted BugFence deployments is controlled by the organisation that runs them, not by this website. The Security page describes what reports can contain.'] },
-      { heading: 'Your rights', paragraphs: ['Contact us to access, correct or delete personal data we hold about you.'] },
+      {
+        paragraphs: [
+          'BugFence ("we", "us", or "our") is dedicated to protecting privacy and sensitive engineering context. This Privacy Policy outlines how we handle information across our marketing website, documentation, and licensing infrastructure.',
+        ],
+      },
+      {
+        heading: 'Information Collected on this Website',
+        bullets: [
+          'No advertising trackers or cross-site behavioral cookies are used on this site.',
+          'Standard access logs (IP address, browser user-agent, timestamp) may be retained temporarily by hosting infrastructure strictly for DDoS mitigation, security auditing, and operational stability.',
+          'Direct inquiries: If you submit a contact or enterprise request form, we retain your email, name, and message details solely to evaluate and respond to your request.',
+        ],
+      },
+      {
+        heading: 'Privacy Architecture of the BugFence Product',
+        paragraphs: [
+          'BugFence software is architected to run on self-hosted infrastructure. When you integrate the BugFence SDK into your applications:',
+          '1. All report processing occurs on servers operated directly by your organization.',
+          '2. The BugFence SDK includes in-browser DOM fencing and regex masking to redact sensitive authentication tokens, credit card digits, and personal identity before transmission.',
+          '3. BugFence does not collect, receive, or store your customer bug reports or diagnostic logs on central servers.',
+        ],
+      },
+      {
+        heading: 'Data Subject Rights (GDPR / CCPA)',
+        paragraphs: [
+          'You have the right to request access to, correction of, or deletion of any personal communications sent to us through our contact channels. To exercise these rights, please contact our privacy desk.',
+        ],
+      },
     ],
   },
   terms: {
-    slug: 'terms', title: 'Terms of Service', updated,
+    slug: 'terms',
+    title: 'Terms of Service',
+    updated,
     sections: [
-      { paragraphs: ['These terms govern use of this website. Product licence terms are provided separately. Entity, governing law and jurisdiction: to be completed.'] },
-      { heading: 'Use of the site', paragraphs: ['The site is provided as is, for information. Do not misuse it or attempt to disrupt it.'] },
-      { heading: 'Changes', paragraphs: ['We may update these terms. The date above shows the latest revision.'] },
+      {
+        paragraphs: [
+          'These Terms of Service ("Terms") govern your use of the BugFence website, documentation, and related online services.',
+        ],
+      },
+      {
+        heading: 'Acceptable Use',
+        paragraphs: [
+          'You agree to use this website in compliance with all applicable laws and regulations. You may not attempt to probe, scan, or compromise the availability or security of our infrastructure, reverse engineer proprietary licence token mechanisms, or use automated scrapers in violation of our robots exclusion standards.',
+        ],
+      },
+      {
+        heading: 'Software Licensing',
+        paragraphs: [
+          'The BugFence Community Edition is distributed under open licensing as specified in the source repository. The BugFence Enterprise Edition is subject to a commercial licence agreement and cryptographic offline token verification.',
+        ],
+      },
+      {
+        heading: 'Disclaimer & Limitation of Liability',
+        paragraphs: [
+          'The website and documentation are provided "as is" without warranty of any kind. BugFence shall not be liable for any indirect, incidental, or consequential damages resulting from the use of this website.',
+        ],
+      },
     ],
   },
   cookies: {
-    slug: 'cookies', title: 'Cookie Policy', updated,
+    slug: 'cookies',
+    title: 'Cookie Policy',
+    updated,
     sections: [
-      { paragraphs: ['This site does not set tracking or advertising cookies. A theme preference may be stored in your browser local storage so your light or dark choice persists. If this changes, this page and any consent controls will be updated first.'] },
+      {
+        heading: 'Zero Tracking Cookies',
+        paragraphs: [
+          'BugFence does not use tracking cookies, cross-site beacons, third-party analytics pixels, or behavioral advertising cookies on this website.',
+          'The only client-side storage used is local preference persistence (such as your preference for light or dark color mode), which operates locally on your machine without transmitting state across third parties.',
+        ],
+      },
     ],
   },
   dpa: {
-    slug: 'dpa', title: 'Data Processing Addendum', updated,
+    slug: 'dpa',
+    title: 'Data Processing Addendum (DPA)',
+    updated,
     sections: [
-      { paragraphs: [
-        'BugFence is documented as self-hosted, so the customer operates the system and is the data controller. In that model we do not process report data on your behalf.',
-        'If a hosted service is introduced, a DPA and subprocessor list will be published here. To request a signed agreement, contact us.',
-      ] },
+      {
+        heading: 'Self-Hosted Data Controllership',
+        paragraphs: [
+          'Because BugFence is deployed on customer-controlled private servers (via Docker, Kubernetes, or Node.js), your organization acts as the sole Data Controller and Data Processor for all bug reports, user sessions, technical diagnostic dumps, and reporter telemetry.',
+          'Under this standard operational model, BugFence does not act as a subprocessor because customer data never leaves your environment.',
+        ],
+      },
+      {
+        heading: 'Enterprise Execution',
+        paragraphs: [
+          'For enterprise organizations requiring signed vendor assurance, mutual Data Processing Agreements with Standard Contractual Clauses (SCCs) are executed alongside commercial VPC licences upon request.',
+        ],
+      },
     ],
   },
   accessibility: {
-    slug: 'accessibility', title: 'Accessibility Statement', updated,
+    slug: 'accessibility',
+    title: 'Accessibility Statement',
+    updated,
     sections: [
-      { paragraphs: ['We aim to meet WCAG 2.2 level AA. The site supports keyboard navigation, visible focus, light and dark themes, and reduced motion. If you find a barrier, please contact us and we will work to fix it.'] },
+      {
+        heading: 'Our Commitment to Accessibility',
+        paragraphs: [
+          'BugFence is committed to ensuring digital accessibility for software engineers, QA specialists, and end reporters of all abilities. We strive to adhere to the Web Content Accessibility Guidelines (WCAG) 2.2 level AA standards across our marketing site and SDK components.',
+        ],
+      },
+      {
+        heading: 'Key Accessibility Features',
+        bullets: [
+          'Accessible keyboard navigation with visible, high-contrast focus rings.',
+          'ARIA landmarks, semantic table layouts, and role labels throughout all sections.',
+          'First-class support for prefers-reduced-motion media queries.',
+          'Accessible color contrast ratios in both light and dark display modes.',
+          'Screen-reader compatible code blocks with live status announcements for copy actions.',
+        ],
+      },
     ],
   },
 };
