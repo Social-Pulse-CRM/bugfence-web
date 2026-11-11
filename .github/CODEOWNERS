@@ -1,0 +1,9 @@
+# BugFence Code Owners
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for all files in this repository
+* @Annanay032
+
+# Critical: Deployment workflows and CI/CD pipelines
+/.github/workflows/ @Annanay032
+/.github/ @Annanay032
