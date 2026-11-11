@@ -52,7 +52,8 @@ export const PLANS: Plan[] = [
     features: [
       '1 project included',
       '3 team seats (unlimited guest reporters)',
-      '1,000 reports / month',
+      '100 reports / month (with 10% buffer)',
+      '1 GB secure media storage',
       '14-day report & 7-day media retention',
       'Reporting Studio in Shadow DOM (~15 KB lazy core)',
       'Client-side DOM redaction before wire upload',
@@ -86,8 +87,9 @@ export const PLANS: Plan[] = [
     },
     features: [
       '5 projects included',
-      '15 team seats (unlimited guest reporters)',
-      '25,000 reports / month',
+      '5 team seats (unlimited guest reporters)',
+      '1,200 reports / month (with 10% buffer)',
+      '15 GB secure media storage',
       '90-day report & 30-day media retention',
       'Server LLM summaries & reproduction steps',
       'Linear, Jira Cloud & GitHub 2-way sync',
@@ -121,8 +123,9 @@ export const PLANS: Plan[] = [
     },
     features: [
       '25 projects included',
-      '100 team seats (unlimited guest reporters)',
-      '250,000 reports / month',
+      '15 team seats (unlimited guest reporters)',
+      '6,000 reports / month (with 10% buffer)',
+      '60 GB secure media storage',
       '365-day report & 90-day media retention',
       'Single Sign-On (SAML 2.0 / OIDC / Okta / Azure AD)',
       'Cross-issue semantic clustering & duplicate deduplication',
@@ -156,8 +159,9 @@ export const PLANS: Plan[] = [
     },
     features: [
       'Unlimited projects & teams',
-      'Custom seat volume (500+ triagers)',
-      'Unlimited monthly report ingestion',
+      'Custom seat volume (50+ triagers)',
+      'Custom / Unlimited monthly report ingestion',
+      'Dedicated or BYOS cloud media storage',
       'Custom data & video retention policies',
       'Air-gapped private VPC deployment',
       '100% Offline Cryptographic Licence (BFLIC token)',
@@ -191,9 +195,10 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
       items: [
         { name: 'Plan Price', free: 'Free ($0 / ₹0)', pro: proPrice, business: bizPrice, enterprise: 'Custom Contract' },
         { name: 'Projects Included', free: '1', pro: '5', business: '25', enterprise: 'Unlimited' },
-        { name: 'Team Seats (Full triagers)', free: '3', pro: '15', business: '100', enterprise: 'Custom (500+)' },
+        { name: 'Team Seats (Full triagers)', free: '3', pro: '5', business: '15', enterprise: 'Custom (50+)' },
         { name: 'Guest Reporters (End-users / QA)', free: 'Unlimited (Free)', pro: 'Unlimited (Free)', business: 'Unlimited (Free)', enterprise: 'Unlimited (Free)' },
-        { name: 'Monthly Report Quota', free: '1,000 / mo', pro: '25,000 / mo', business: '250,000 / mo', enterprise: 'Unlimited' },
+        { name: 'Monthly Report Quota', free: '100 / mo', pro: '1,200 / mo', business: '6,000 / mo', enterprise: 'Custom / Unlimited' },
+        { name: 'Media Storage Capacity', free: '1 GB', pro: '15 GB', business: '60 GB', enterprise: 'Dedicated / BYOS' },
         { name: 'Report Data Retention', free: '14 days', pro: '90 days', business: '365 days', enterprise: '730 days / Custom' },
         { name: 'Media Storage Retention', free: '7 days', pro: '30 days', business: '90 days', enterprise: '365 days / Custom' },
       ],
@@ -264,15 +269,15 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How do the four BugFence pricing tiers compare?',
-    a: 'BugFence is structured to support every stage of engineering: Free is an open-core tier for local testing and indie hackers (1,000 reports/mo, 1 project). Pro ($14/mo or ₹999/mo) is built for fast-shipping engineering teams (25,000 reports/mo, 5 projects, 2-way sync). Business ($39/mo or ₹2,799/mo) powers software agencies and scaling SaaS teams (250,000 reports/mo, 25 projects, 100 seats, white-labeling). Enterprise Custom is dedicated to regulated organizations requiring air-gapped private VPCs, SAML 2.0, HIPAA BAAs, and offline cryptographic license tokens.',
+    a: 'BugFence is structured to support every stage of engineering: Free is an open-core tier for local testing and indie hackers (100 reports/mo, 1 GB storage, 1 project, 3 seats). Pro ($14/mo or ₹999/mo) is built for fast-shipping engineering teams (1,200 reports/mo, 15 GB storage, 5 projects, 5 seats, 2-way sync). Business ($39/mo or ₹2,799/mo) powers software agencies and scaling SaaS teams (6,000 reports/mo, 60 GB storage, 25 projects, 15 seats, SSO, white-labeling). Enterprise Custom is dedicated to regulated organizations requiring air-gapped private VPCs, SAML 2.0, HIPAA BAAs, custom quotas, and offline cryptographic license tokens.',
   },
   {
     q: 'How does annual billing work, and how much do I save?',
     a: 'When choosing annual billing, you receive roughly 2 months free each year (~20% off). Pro is $140/year (or ₹9,990/year), and Business is $390/year (or ₹27,990/year). You can switch between monthly and annual billing at any time.',
   },
   {
-    q: 'What is a "guest reporter" and why are they free?',
-    a: 'A guest reporter is any QA tester, client, stakeholder, or end-user who submits a bug report through the widget or views the status of bugs they reported. Pro and Business include unlimited guest reporters at zero cost ($0 / ₹0). Only team members who triage issues, configure integrations, or access the full admin dashboard require paid seats.',
+    q: 'What is the difference between Guest Reporters and Team Seats?',
+    a: 'A guest reporter is any QA tester, client, stakeholder, or end-user who submits a bug report through the widget or views the status of bugs they reported. All plans include unlimited guest reporters at zero cost ($0 / ₹0). Only internal team members who manage projects, triage issues, trigger coding agent workflows, or configure integrations require paid team seats (3 on Free, 5 on Pro, 15 on Business, custom on Enterprise).',
   },
   {
     q: 'What happens if our team exceeds our monthly report cap?',

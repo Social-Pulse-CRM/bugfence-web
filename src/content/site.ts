@@ -6,6 +6,7 @@ export const SITE = {
 } as const;
 
 export const NAV = [
+  { href: '/#sandbox', label: 'Sandbox' },
   { href: '/#how-it-works', label: 'How it works' },
   { href: '/#demo', label: 'Redaction demo' },
   { href: '/pricing', label: 'Pricing' },

@@ -1,11 +1,27 @@
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
-import { WidgetMock } from '@/features/widget-mock/widget-mock';
-import { Shield, Terminal, ArrowRight, CheckCircle2, Lock, Sparkles, Server } from 'lucide-react';
+import { env } from '@/lib/env';
+import {
+  Terminal,
+  ArrowRight,
+  ExternalLink,
+  CheckCircle2,
+  Lock,
+  Sparkles,
+  Server,
+  ShieldCheck,
+  EyeOff,
+  Cpu,
+  Layers,
+  ArrowDown
+} from 'lucide-react';
 
 export function Hero() {
+  const demoAppUrl = env.demoAppUrl || 'http://localhost:3000';
+  const demoDashboardUrl = env.demoDashboardUrl || 'http://localhost:5000';
+
   return (
-    <section className="relative overflow-hidden pb-20 pt-12 sm:pb-28 sm:pt-20">
+    <section className="relative overflow-hidden pb-16 pt-12 sm:pb-24 sm:pt-20">
       {/* Subtle radial ambient background glow */}
       <div
         className="pointer-events-none absolute left-1/2 top-0 -z-10 -translate-x-1/2 h-[550px] w-full max-w-7xl opacity-25 blur-3xl"
@@ -39,11 +55,29 @@ export function Hero() {
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <ButtonLink href="#install" className="text-base font-semibold px-6 py-3 shadow-lg shadow-accent/20">
-              <Terminal className="size-4" /> Install Widget
+            <ButtonLink
+              href={demoAppUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-base font-semibold px-6 py-3 shadow-lg shadow-accent/20 bg-accent text-accent-fg hover:opacity-95"
+            >
+              Launch Live Sandbox <ExternalLink className="size-4 ml-1" />
             </ButtonLink>
-            <ButtonLink href="/pricing/" variant="secondary" className="text-base font-semibold px-6 py-3">
-              View Plans & Pricing <ArrowRight className="size-4" />
+            <ButtonLink
+              href={`${demoDashboardUrl}/?demo=true`}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+              className="text-base font-semibold px-6 py-3"
+            >
+              1-Click Triage Console <ExternalLink className="size-4 ml-1 text-purple-400" />
+            </ButtonLink>
+            <ButtonLink
+              href="#sandbox"
+              variant="secondary"
+              className="text-base font-semibold px-5 py-3 text-muted hover:text-fg"
+            >
+              Explore Scenarios <ArrowDown className="size-4 ml-1" />
             </ButtonLink>
           </div>
 
@@ -70,43 +104,95 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Proper Full-Width Interactive Studio Showcase */}
-        <div className="relative mt-12 w-full max-w-6xl mx-auto">
-          {/* Subtle Outer Glow */}
-          <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-radial from-accent/20 via-secondary/10 to-transparent blur-2xl opacity-50" />
-
-          {/* Browser Window Chrome Wrapper */}
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
-            {/* Window Titlebar */}
-            <div className="flex items-center justify-between border-b border-border bg-elevated/80 px-4 py-2.5 text-xs">
-              {/* Traffic light window dots */}
-              <div className="flex items-center gap-2">
-                <span className="size-3 rounded-full bg-[#ff5f56] border border-black/10 inline-block" />
-                <span className="size-3 rounded-full bg-[#ffbd2e] border border-black/10 inline-block" />
-                <span className="size-3 rounded-full bg-[#27c93f] border border-black/10 inline-block" />
+        {/* Clean Architecture & Workflow Showcase Card */}
+        <div className="relative mt-14 w-full max-w-5xl mx-auto">
+          <div className="overflow-hidden rounded-2xl border border-border bg-surface/90 shadow-2xl backdrop-blur-sm p-6 sm:p-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-border/70 pb-6 mb-8">
+              <div>
+                <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-accent">
+                  Privacy-By-Construction Flow
+                </span>
+                <h2 className="text-xl font-bold text-fg mt-1">
+                  How Diagnostic Evidence Travels Safely to Your VPC
+                </h2>
               </div>
-
-              {/* URL address pill */}
-              <div className="flex items-center gap-2 rounded-full border border-border/80 bg-surface px-4 py-1 text-[11px] font-mono text-muted shadow-inner">
-                <Lock className="size-3 text-accent" />
-                <span className="text-fg font-medium">https://app.yourcompany.com/billing/checkout</span>
-              </div>
-
-              {/* Live Sandbox Indicator */}
-              <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted">
-                <span className="size-2 rounded-full bg-accent animate-pulse" />
-                <span className="hidden sm:inline">Interactive Studio Sandbox</span>
+              <div className="flex items-center gap-2 text-xs text-muted font-mono bg-elevated px-3 py-1.5 rounded-lg border border-border">
+                <Lock className="size-3.5 text-emerald-500" />
+                <span>Client-Side Sanitization &bull; TLS 1.3 Transport</span>
               </div>
             </div>
 
-            {/* Embedded Reporting Studio with Proper Spacious Width */}
-            <WidgetMock />
-          </div>
+            {/* 3-Step Architectural Flow */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+              {/* Step 1: In-Browser Redaction */}
+              <div className="rounded-xl border border-border/80 bg-elevated/60 p-5 space-y-3 relative group hover:border-accent/50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-accent px-2 py-0.5 rounded bg-accent/10 border border-accent/20">
+                    STEP 01
+                  </span>
+                  <EyeOff className="size-4 text-accent" />
+                </div>
+                <h3 className="font-bold text-base text-fg">In-Browser DOM Fencing</h3>
+                <p className="text-xs text-muted leading-relaxed">
+                  Passwords, payment card numbers (validated via Luhn algorithm), and elements with <code className="text-accent font-mono text-[11px]">data-bugfence-mask</code> are obscured locally before canvas rasterization or replay serialization.
+                </p>
+                <div className="pt-2 border-t border-border/40 text-[11px] font-mono text-muted flex items-center gap-1.5">
+                  <CheckCircle2 className="size-3 text-emerald-500" />
+                  <span>Zero unredacted pixels leave device</span>
+                </div>
+              </div>
 
-          {/* Interactive Hint */}
-          <div className="mt-3 flex items-center justify-center gap-2 text-xs text-muted">
-            <Sparkles className="size-3.5 text-accent" />
-            <span>Interactive Demo: Click tools, switch between Screenshot / Video / Session Replay, or toggle USD / INR.</span>
+              {/* Step 2: Private Ingestion */}
+              <div className="rounded-xl border border-border/80 bg-elevated/60 p-5 space-y-3 relative group hover:border-indigo-500/50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-indigo-400 px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20">
+                    STEP 02
+                  </span>
+                  <Server className="size-4 text-indigo-400" />
+                </div>
+                <h3 className="font-bold text-base text-fg">Direct VPC Ingestion</h3>
+                <p className="text-xs text-muted leading-relaxed">
+                  Sanitized reports travel directly to your self-hosted API. Ingestion re-scrubs incoming payloads, validates release metadata, and stores records in your private PostgreSQL database or encrypted volume.
+                </p>
+                <div className="pt-2 border-t border-border/40 text-[11px] font-mono text-muted flex items-center gap-1.5">
+                  <CheckCircle2 className="size-3 text-emerald-500" />
+                  <span>100% data sovereignty &bull; Zero central cloud</span>
+                </div>
+              </div>
+
+              {/* Step 3: Developer & Agent Triage */}
+              <div className="rounded-xl border border-border/80 bg-elevated/60 p-5 space-y-3 relative group hover:border-purple-500/50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-purple-400 px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20">
+                    STEP 03
+                  </span>
+                  <Cpu className="size-4 text-purple-400" />
+                </div>
+                <h3 className="font-bold text-base text-fg">Triage & Agent Dispatch</h3>
+                <p className="text-xs text-muted leading-relaxed">
+                  Engineers review symbolicated traces and 30s session replays rendered in a script-less sandboxed iframe. AI coding agents inspect reports via the built-in MCP server to patch regressions fast.
+                </p>
+                <div className="pt-2 border-t border-border/40 text-[11px] font-mono text-muted flex items-center gap-1.5">
+                  <CheckCircle2 className="size-3 text-emerald-500" />
+                  <span>MCP Server for Claude Code, Cursor & Copilot</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Quick Test Banner */}
+            <div className="mt-8 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5 text-xs text-muted text-center sm:text-left">
+                <ShieldCheck className="size-4 text-accent shrink-0" />
+                <span>Want to test this in action? Experience real defect triggers and client-side masking in our sandbox.</span>
+              </div>
+              <ButtonLink
+                href="#sandbox"
+                variant="secondary"
+                className="text-xs font-semibold px-4 py-2 whitespace-nowrap"
+              >
+                View Sandbox Guide & Scenarios <ArrowDown className="size-3.5 ml-1.5" />
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </Container>

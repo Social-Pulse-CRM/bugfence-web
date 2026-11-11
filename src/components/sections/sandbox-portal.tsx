@@ -1,25 +1,26 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import { Container } from '@/components/ui/container';
 import { Card } from '@/components/ui/card';
 import { ButtonLink } from '@/components/ui/button';
+import { env } from '@/lib/env';
 import {
-  ShieldAlert,
   Zap,
-  Terminal,
   ExternalLink,
-  Layers,
   Flame,
-  Bug,
-  Activity,
-  Maximize2,
-  Minimize2,
-  RefreshCw,
-  Lock,
-  Database,
   CheckCircle2,
-  Clock
+  Database,
+  Terminal,
+  ShieldCheck,
+  Cpu,
+  Layers,
+  Sparkles,
+  ArrowRight,
+  Info,
+  Clock,
+  Lock,
+  Server,
+  Play
 } from 'lucide-react';
 
 interface Scenario {
@@ -45,7 +46,7 @@ const SCENARIOS: Scenario[] = [
     name: 'Thread Freeze & Long Task (650ms)',
     tag: 'Performance',
     tagColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-    description: 'Synchronous compute loop blocks the main JavaScript thread, causing the in-page FPS meter to plummet.',
+    description: 'Synchronous compute loop blocks the main JavaScript thread, causing the in-page FPS meter to drop.',
     telemetry: 'PerformanceObserver captures LongTask violation breadcrumbs and frames dropped in session replay.'
   },
   {
@@ -54,7 +55,7 @@ const SCENARIOS: Scenario[] = [
     tag: 'GraphQL',
     tagColor: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20',
     description: 'Malformed mutation query submitted with missing orderId and invalid plan tier enum values.',
-    telemetry: 'SDK categorizes response as GraphQL ValidationError and captures mutation variables.'
+    telemetry: 'SDK categorizes response as GraphQL ValidationError and captures mutation variables with scrubbed PII.'
   },
   {
     id: 'typeerror',
@@ -99,257 +100,262 @@ const SCENARIOS: Scenario[] = [
 ];
 
 export function SandboxPortal() {
-  const [activeScenario, setActiveScenario] = useState<string>('checkout504');
-  const [lastAction, setLastAction] = useState<string | null>(null);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [isIframeLoaded, setIsIframeLoaded] = useState<boolean>(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  // Send typed postMessage to the running demo application iframe
-  const triggerScenario = (scenarioId: string) => {
-    setActiveScenario(scenarioId);
-    setLastAction(`Triggering ${scenarioId}...`);
-    if (iframeRef.current && iframeRef.current.contentWindow) {
-      iframeRef.current.contentWindow.postMessage(
-        { type: 'BUGFENCE_DEMO_TRIGGER', scenario: scenarioId },
-        '*'
-      );
-    }
-  };
-
-  // Listen for acknowledgement or report submission events from the sandbox iframe
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (!event.data || typeof event.data !== 'object') return;
-      if (event.data.type === 'BUGFENCE_DEMO_ACK') {
-        setLastAction(`✅ Scenario "${event.data.scenario}" executed inside sandbox.`);
-      } else if (event.data.type === 'BUGFENCE_DEMO_REPORT_SUBMITTED') {
-        setLastAction(`🎉 Bug report submitted! ID: ${event.data.reportId}. Available in Live Console.`);
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  const reloadIframe = () => {
-    setIsIframeLoaded(false);
-    if (iframeRef.current) {
-      iframeRef.current.src = 'http://localhost:3000/?embed=true';
-      setLastAction('Iframe reloaded.');
-    }
-  };
+  const demoAppUrl = env.demoAppUrl || 'http://localhost:3000';
+  const demoDashboardUrl = env.demoDashboardUrl || 'http://localhost:5000';
+  const isLocalhost = demoAppUrl.includes('localhost') || demoAppUrl.includes('127.0.0.1');
 
   return (
     <section id="sandbox" className="py-16 sm:py-24 border-t border-border bg-gradient-to-b from-bg to-surface/30">
       <Container>
         {/* Section Header */}
-        <div className="mb-10 max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent mb-3">
-            <Zap className="size-3.5" /> Live Interactive Sandbox
+        <div className="max-w-3xl space-y-3 mb-10">
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent">
+            <Zap className="size-3.5" /> Live Sandbox Environments
           </div>
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl text-fg">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-fg">
             Test Real SaaS Defects in a Connected Sandbox
           </h2>
-          <p className="mt-3 text-muted text-base">
-            No static mockups. Experience BugFence directly through two connected environments: the client-side reporter sandbox on port 3000 and the engineering triage console on port 5000.
+          <p className="text-base text-muted leading-relaxed">
+            Experience BugFence in real time without installation or signup. For the most accurate testing experience, open the environments in a dedicated browser window.
           </p>
         </div>
 
-        {/* Dual Launch Pathways */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
-          {/* Path A: In-Browser Widget Sandbox */}
-          <Card className="flex flex-col justify-between border-accent/30 bg-gradient-to-br from-surface to-accent/5 p-6 hover:border-accent transition-all">
+        {/* Clear Instruction Banner: How to Test the Demo */}
+        <div className="mb-10 rounded-2xl border border-accent/20 bg-gradient-to-r from-accent/5 via-surface to-accent/5 p-6 sm:p-7 shadow-sm">
+          <div className="flex items-start gap-4">
+            <div className="p-2.5 rounded-xl bg-accent/10 text-accent shrink-0 mt-1">
+              <Info className="size-5" />
+            </div>
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent">
-                  <Terminal className="size-4" /> Pathway 1 &bull; Reporter Experience
-                </span>
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-accent/20 text-accent font-mono">
-                  Port 3000
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-base font-bold text-fg">
+                  How to Test the Interactive Sandbox
+                </h3>
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-accent/20 text-accent font-semibold">
+                  Dedicated Window Experience
                 </span>
               </div>
-              <h3 className="text-xl font-semibold text-fg">In-Browser Widget Sandbox</h3>
-              <p className="text-sm text-muted">
-                Trigger real client-side errors, witness automatic credit card masking, and test the floating BugFence reporter widget in our simulated NovaCloud SaaS application.
+              <p className="text-sm text-muted leading-relaxed">
+                Because BugFence is an in-browser SDK that records rolling DOM sessions, captures screenshots, and protects sensitive customer data, it runs natively inside your browser. We provide two interconnected applications:
               </p>
+              
+              {/* 3 Step Instruction Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <div className="rounded-xl border border-border bg-surface/80 p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-accent bg-accent/10 px-2 py-0.5 rounded">
+                      STEP 1
+                    </span>
+                    <Play className="size-3.5 text-accent" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-fg">Open Demo App in New Window</h4>
+                  <p className="text-xs text-muted leading-relaxed">
+                    Loads NovaCloud SaaS with the authentic floating BugFence widget active in the bottom-right corner.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border bg-surface/80 p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">
+                      STEP 2
+                    </span>
+                    <Flame className="size-3.5 text-amber-500" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-fg">Trigger Real Defect Scenarios</h4>
+                  <p className="text-xs text-muted leading-relaxed">
+                    Click any failure scenario below to trigger real 504 timeouts, thread freezes, or component crashes.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border bg-surface/80 p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">
+                      STEP 3
+                    </span>
+                    <Cpu className="size-3.5 text-purple-400" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-fg">Inspect Triage Console</h4>
+                  <p className="text-xs text-muted leading-relaxed">
+                    Open the engineering dashboard with 1 click to view deduplicated issues, symbolicated stack traces, and 30s session replays.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  const element = document.getElementById('sandbox-iframe-container');
-                  element?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-accent px-4 text-xs font-semibold text-accent-fg hover:opacity-90 transition-opacity"
-              >
-                <Layers className="size-4" /> Scroll to Embedded Frame
-              </button>
+          </div>
+        </div>
+
+        {/* The Two Distinct Launch Pathways */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {/* Pathway 1: Demo Application (Reporter View) */}
+          <Card className="flex flex-col justify-between border-accent/40 bg-gradient-to-br from-surface to-accent/5 p-6 sm:p-7 hover:border-accent transition-all shadow-md">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent">
+                  <Terminal className="size-4" /> Environment 1 &bull; Reporter Experience
+                </span>
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-accent/20 text-accent font-mono">
+                  {isLocalhost ? 'Localhost Port 3000' : 'Live Cloud Sandbox'}
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-fg">NovaCloud SaaS Demo Application</h3>
+              <p className="text-sm text-muted leading-relaxed">
+                Test the client-side reporter widget embedded inside a realistic multi-tenant enterprise application. Experience drawing annotations, screen recording, and client-side Luhn credit card scrubbing.
+              </p>
+              
+              <ul className="space-y-2 text-xs text-muted pt-2 border-t border-border/60">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-accent shrink-0" />
+                  <span>Floating BugFence reporter widget in the bottom-right corner</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-accent shrink-0" />
+                  <span>Interactive checkout with live Luhn credit card redaction</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-accent shrink-0" />
+                  <span>Real-time in-page diagnostic terminal and error simulation bar</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-8 pt-4 border-t border-border/60">
               <ButtonLink
-                href="http://localhost:3000/?embed=false"
-                variant="secondary"
-                className="text-xs min-h-10 px-4"
+                href={demoAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="primary"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 min-h-11 px-6 text-sm font-bold shadow-md bg-accent text-accent-fg hover:opacity-95"
               >
-                Open in New Window <ExternalLink className="size-3.5" />
+                Open Demo App in New Window <ExternalLink className="size-4 ml-1" />
               </ButtonLink>
             </div>
           </Card>
 
-          {/* Path B: Live Engineering Console Quick Connect */}
-          <Card className="flex flex-col justify-between border-purple-500/30 bg-gradient-to-br from-surface to-purple-500/5 p-6 hover:border-purple-500 transition-all">
-            <div className="space-y-3">
+          {/* Pathway 2: Triage Console (Developer View) */}
+          <Card className="flex flex-col justify-between border-purple-500/40 bg-gradient-to-br from-surface to-purple-500/5 p-6 sm:p-7 hover:border-purple-500 transition-all shadow-md">
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-purple-400">
-                  <Zap className="size-4" /> Pathway 2 &bull; Triage Experience
+                  <Cpu className="size-4" /> Environment 2 &bull; Triage Experience
                 </span>
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono">
-                  Port 5000 (1-Click Login)
+                  {isLocalhost ? 'Localhost Port 5000' : 'Live Triage Console'}
                 </span>
               </div>
-              <h3 className="text-xl font-semibold text-fg">Live Engineering Dashboard</h3>
-              <p className="text-sm text-muted">
-                Jump directly into the developer triage console with zero credentials. Review automated issue clustering, symbolicated stack traces, and 30-second rrweb session replays.
+              <h3 className="text-2xl font-bold text-fg">Developer Triage Console</h3>
+              <p className="text-sm text-muted leading-relaxed">
+                Access the engineering dashboard instantly with 1-click passwordless login. Review incoming reports, automated error deduplication, symbolicated stack traces, and 30-second rolling DOM replays.
               </p>
+
+              <ul className="space-y-2 text-xs text-muted pt-2 border-t border-border/60">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-purple-400 shrink-0" />
+                  <span>Passwordless instant access with preloaded test issues</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-purple-400 shrink-0" />
+                  <span>30-second session replay player rendered in script-less iframe</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-purple-400 shrink-0" />
+                  <span>Model Context Protocol (MCP) server for Claude Code and Cursor</span>
+                </li>
+              </ul>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+
+            <div className="mt-8 pt-4 border-t border-border/60 flex flex-wrap items-center gap-3">
               <ButtonLink
-                href="http://localhost:5000/?demo=true"
+                href={`${demoDashboardUrl}/?demo=true`}
+                target="_blank"
+                rel="noopener noreferrer"
                 variant="primary"
-                className="text-xs min-h-10 px-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold shadow-md"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 min-h-11 px-6 text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md"
               >
-                ⚡ 1-Click Instant Demo Access <ExternalLink className="size-3.5" />
+                Open Triage Console in New Window <ExternalLink className="size-4 ml-1" />
               </ButtonLink>
-              <span className="inline-flex items-center text-xs text-muted font-medium">
-                Passwordless &bull; Read-Only Guardrails Active
-              </span>
             </div>
           </Card>
         </div>
 
-        {/* 8 Scenario Selector Cards */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-fg flex items-center gap-2">
-              <Flame className="size-5 text-amber-500" /> Select a Scenario to Dispatch Remotely
+        {/* 8 Enterprise Defect Simulation Scenarios */}
+        <div className="mb-12">
+          <div className="max-w-2xl space-y-2 mb-6">
+            <h3 className="text-xl font-bold text-fg flex items-center gap-2">
+              <Flame className="size-5 text-amber-500" />
+              8 Enterprise Defect Simulation Scenarios
             </h3>
-            {lastAction && (
-              <span className="text-xs text-accent font-medium animate-pulse">
-                {lastAction}
-              </span>
-            )}
+            <p className="text-sm text-muted">
+              Click any scenario below to launch it directly in the Demo Application in a new window, or test them inside the app.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {SCENARIOS.map((scenario) => {
-              const isSelected = activeScenario === scenario.id;
               return (
-                <button
+                <div
                   key={scenario.id}
-                  type="button"
-                  onClick={() => triggerScenario(scenario.id)}
-                  className={`text-left rounded-lg p-3.5 border transition-all flex flex-col justify-between gap-3 ${
-                    isSelected
-                      ? 'border-accent bg-accent/10 shadow-sm'
-                      : 'border-border bg-surface hover:border-accent/40'
-                  }`}
+                  className="rounded-xl border border-border bg-surface p-4 flex flex-col justify-between gap-4 hover:border-accent/40 transition-colors shadow-sm"
                 >
-                  <div className="space-y-1.5">
-                    <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded border ${scenario.tagColor}`}>
+                  <div className="space-y-2">
+                    <span className={`inline-block text-[11px] font-bold px-2.5 py-0.5 rounded border ${scenario.tagColor}`}>
                       {scenario.tag}
                     </span>
-                    <h4 className="text-xs font-semibold text-fg leading-tight">
+                    <h4 className="text-sm font-bold text-fg leading-snug">
                       {scenario.name}
                     </h4>
-                    <p className="text-[11px] text-muted line-clamp-2">
+                    <p className="text-xs text-muted leading-relaxed">
                       {scenario.description}
                     </p>
                   </div>
-                  <div className="pt-2 border-t border-border/50 flex items-center justify-between text-[11px] font-semibold text-accent">
-                    <span>Dispatch Fault &rarr;</span>
-                    {isSelected && <span className="size-2 rounded-full bg-accent animate-ping" />}
+
+                  <div className="pt-3 border-t border-border/60 space-y-3">
+                    <p className="text-[11px] text-muted/80 leading-normal font-mono bg-elevated/70 p-2 rounded">
+                      <strong className="text-fg font-semibold block mb-0.5">Telemetry:</strong>
+                      {scenario.telemetry}
+                    </p>
+                    <a
+                      href={`${demoAppUrl}/?scenario=${scenario.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full items-center justify-between text-xs font-semibold text-accent hover:underline pt-1"
+                    >
+                      <span>Launch Scenario in Demo App</span>
+                      <ExternalLink className="size-3.5" />
+                    </a>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>
         </div>
 
-        {/* Embedded Live Sandbox Iframe Viewport */}
-        <div
-          id="sandbox-iframe-container"
-          className={`rounded-xl border border-border bg-surface overflow-hidden shadow-2xl transition-all ${
-            isExpanded ? 'fixed inset-4 z-50 flex flex-col bg-bg' : 'relative h-[620px] mb-8'
-          }`}
-        >
-          {/* Mock Browser Header Chrome */}
-          <div className="flex items-center justify-between px-4 py-2.5 bg-surface border-b border-border text-xs text-muted">
-            <div className="flex items-center gap-2">
-              <span className="size-3 rounded-full bg-red-500/80 inline-block" />
-              <span className="size-3 rounded-full bg-yellow-500/80 inline-block" />
-              <span className="size-3 rounded-full bg-green-500/80 inline-block" />
-              <span className="ml-2 font-mono text-[11px] text-fg/80 bg-elevated px-2.5 py-0.5 rounded border border-border flex items-center gap-1.5">
-                <Lock className="size-3 text-emerald-500" />
-                http://localhost:3000/?embed=true
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-500">
-                <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                {isIframeLoaded ? 'Live Sandbox Connected' : 'Connecting to localhost:3000...'}
-              </span>
-              <button
-                type="button"
-                onClick={reloadIframe}
-                title="Reload Sandbox Frame"
-                className="p-1 rounded hover:bg-elevated text-muted hover:text-fg transition-colors"
-              >
-                <RefreshCw className="size-3.5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsExpanded(!isExpanded)}
-                title={isExpanded ? 'Collapse Frame' : 'Expand Frame'}
-                className="p-1 rounded hover:bg-elevated text-muted hover:text-fg transition-colors"
-              >
-                {isExpanded ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Iframe */}
-          <iframe
-            ref={iframeRef}
-            src="http://localhost:3000/?embed=true"
-            title="BugFence Interactive Sandbox"
-            onLoad={() => setIsIframeLoaded(true)}
-            className="w-full flex-1 border-0 h-full bg-white dark:bg-slate-950"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
-          />
-        </div>
-
         {/* Zero-AWS Ephemeral Policy Guardrail Banner */}
-        <Card className="border-border bg-gradient-to-r from-surface to-elevated p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500 mt-0.5">
-              <Database className="size-5" />
+        <div className="rounded-2xl border border-border bg-surface p-6 sm:p-7 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+            <div className="flex items-start gap-4">
+              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0 mt-0.5">
+                <Database className="size-5" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-base font-bold text-fg flex items-center gap-2">
+                  Zero Cloud Storage Inflation & Auto-Rolling Ephemeral Tenant
+                </h4>
+                <p className="text-xs sm:text-sm text-muted max-w-3xl leading-relaxed">
+                  Demo screenshots and session recordings are kept exclusively in isolated ephemeral storage with a 50MB hard quota ceiling and FIFO cap (max 30 reports). An automated 15-minute Janitor service purges demo reports older than 45 minutes, ensuring zero AWS S3/R2 storage costs.
+                </p>
+              </div>
             </div>
-            <div className="space-y-0.5">
-              <h4 className="text-sm font-semibold text-fg flex items-center gap-2">
-                Zero Cloud Storage Inflation & Auto-Rolling Ephemeral Tenant
-              </h4>
-              <p className="text-xs text-muted max-w-2xl">
-                Demo screenshots and session recordings are kept exclusively in isolated ephemeral storage with a 50MB hard quota ceiling and FIFO cap (max 30 reports). An automated 15-minute Janitor purges demo reports older than 45 minutes, ensuring zero AWS S3/R2 storage costs.
-              </p>
-            </div>
+            <ButtonLink
+              href={`${demoDashboardUrl}/?demo=true`}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+              className="text-xs font-semibold min-h-10 px-5 whitespace-nowrap shrink-0"
+            >
+              Open Triage Console <ArrowRight className="size-3.5 ml-1.5" />
+            </ButtonLink>
           </div>
-          <ButtonLink
-            href="http://localhost:5000/?demo=true"
-            variant="secondary"
-            className="text-xs min-h-9 px-4 whitespace-nowrap"
-          >
-            Review Issues in Dashboard &rarr;
-          </ButtonLink>
-        </Card>
+        </div>
       </Container>
     </section>
   );

@@ -9,14 +9,35 @@ const variants: Record<Variant, string> = {
   ghost: 'text-muted hover:text-fg',
 };
 
-export function ButtonLink({ href, variant = 'primary', className, children }: {
-  href: string; variant?: Variant; className?: string; children: React.ReactNode;
+export function ButtonLink({
+  href,
+  variant = 'primary',
+  className,
+  target,
+  rel,
+  children,
+}: {
+  href: string;
+  variant?: Variant;
+  className?: string;
+  target?: string;
+  rel?: string;
+  children: React.ReactNode;
 }) {
-  const external = /^https?:/.test(href);
+  const external = /^https?:/.test(href) || target === '_blank';
   const cls = cn(base, variants[variant], className);
   return external ? (
-    <a href={href} className={cls} target="_blank" rel="noopener noreferrer">{children}</a>
+    <a
+      href={href}
+      className={cls}
+      target={target || '_blank'}
+      rel={rel || 'noopener noreferrer'}
+    >
+      {children}
+    </a>
   ) : (
-    <Link href={href} className={cls}>{children}</Link>
+    <Link href={href} className={cls}>
+      {children}
+    </Link>
   );
 }
