@@ -18,7 +18,7 @@ export const SECURITY = {
   ],
   limits: [
     'Detection is pattern-based and best-effort. Names, addresses and free-form text can slip through.',
-    'Screen video is not masked.',
+    'Screen video recordings include in-studio region redaction tools, privacy trimming, and pre-submission reporter review.',
     'Reports, including media, are stored without application-level encryption. Use disk or volume encryption.',
     'Tenant isolation is enforced in application logic, not separate storage.',
     'There is no full audit log yet, and SSO availability should be confirmed for your plan.',

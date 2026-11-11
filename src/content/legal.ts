@@ -52,7 +52,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         ],
         bullets: [
           'Issue Description: Title, problem description, and optional voice transcript.',
-          'Visual Evidence: Optional viewport screenshot (canvas-rasterized with DOM fencing), native screenshot review, screen video recording (unfenced getDisplayMedia stream), and 30-second DOM event replay (rrweb-compatible format).',
+          'Visual Evidence: Optional viewport screenshot (canvas-rasterized with DOM fencing), native screenshot review, screen video recording (with in-studio region redaction options, timeline privacy trimming, and pre-submission reporter review), and 30-second DOM event replay (rrweb-compatible format with automated DOM fencing).',
           'Technical Diagnostics: Failed network requests (status code, duration, method, URL, and sanitized payload), browser console errors, unhandled exceptions, and user breadcrumb trails (clicks, navigation, and input changes).',
           'Device Telemetry: Browser family and version, operating system, viewport dimensions, screen pixel ratio, connection quality, and release/commit identifiers.',
           'Reporter Identity: Configurable by the server administrator (BUGFENCE_REPORTER_EMAIL=keep|hash|drop). When set to "keep", user email is stored and masked for read-only roles (j***@domain). When set to "hash", email is converted into a keyed HMAC-SHA256 pseudonym. When set to "drop", no email is persisted.',
@@ -79,7 +79,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         ],
         bullets: [
           'Pattern-Based Scrubbing: Detection relies on heuristic regex and checksum matching. Unstructured customer names, street addresses, free-form medical notes, or bespoke internal IDs may pass through. BugFence must not serve as your sole compliance fence for unencrypted regulated records.',
-          'Screen Video Recordings: Video streams captured via getDisplayMedia cannot be reliably masked in real-time across arbitrary desktop surfaces. The reporter is prompted to review, trim, redact, or discard video recordings prior to submission.',
+          'Screen Video Recordings: BugFence provides in-studio video redaction options, region fencing tools, and timeline privacy trimming (with real-time client-side re-encoding). Reporters can drag redaction boxes over sensitive video regions across specific time scopes, trim leading or trailing seconds, or discard the recording prior to submission. If re-encoding fails, the raw unredacted clip is never uploaded.',
           'Storage Encryption at Rest: Reports and diagnostic media are stored as structured JSON or PostgreSQL jsonb records. BugFence does not implement application-level encryption for report payloads. Operators must enable host volume or disk encryption (e.g., AWS EBS encryption, dm-crypt/LUKS).',
           'Certifications: BugFence is architected to align with SOC 2 Type II, HIPAA, and ISO 27001 requirements; we do not currently hold independent third-party audit certifications.',
         ],
@@ -236,7 +236,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         paragraphs: [
           'Except as expressly specified in a written Enterprise Master Services Agreement (MSA), BugFence is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, whether express, implied, or statutory.',
           'BugFence disclaims all implied warranties of merchantability, fitness for a particular purpose, and non-infringement.',
-          'You acknowledge that client-side PII sanitization and DOM fencing are pattern-based and heuristic controls designed as defense-in-depth. BugFence does not guarantee that every sensitive string or unmasked screen video recording will be intercepted. Customer is responsible for properly labeling sensitive UI with data-bugfence-mask and configuring server-side retention.',
+          'You acknowledge that client-side PII sanitization and DOM fencing are pattern-based and heuristic controls designed as defense-in-depth. BugFence provides built-in visual redaction tools for screenshots and video recordings; however, Customer remains responsible for utilizing redaction tools, properly labeling sensitive UI with data-bugfence-mask, and configuring server-side retention.',
         ],
       },
       {

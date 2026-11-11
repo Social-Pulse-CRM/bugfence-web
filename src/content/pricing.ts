@@ -19,7 +19,7 @@ export interface Plan {
   name: string;
   cadence: string;
   blurb: string;
-  cta: { label: string; href?: string; action?: 'link' | 'checkout' };
+  cta: { label: string; href?: string; action?: 'link' | 'register' | 'enterprise' };
   highlight: boolean;
   badge?: string;
   pricing: Record<Currency, PlanCurrencyPricing>;
@@ -39,14 +39,14 @@ export const PLANS: Plan[] = [
       usd: {
         monthly: { amount: 0, formatted: '$0', period: '/ month', subtext: 'Forever free' },
         yearly: { amount: 0, formatted: '$0', period: '/ month', subtext: 'Forever free' },
-        taxNote: 'No credit card required',
-        gateway: 'Community Open Source',
+        taxNote: 'No credit card or gateway setup needed',
+        gateway: 'Community Open Source ($0)',
       },
       inr: {
         monthly: { amount: 0, formatted: '₹0', period: '/ month', subtext: 'Forever free' },
         yearly: { amount: 0, formatted: '₹0', period: '/ month', subtext: 'Forever free' },
-        taxNote: 'No credit card required',
-        gateway: 'Community Open Source',
+        taxNote: 'No credit card or gateway setup needed',
+        gateway: 'Community Open Source (₹0)',
       },
     },
     features: [
@@ -68,14 +68,14 @@ export const PLANS: Plan[] = [
     name: 'Pro',
     cadence: 'For fast-moving engineering teams',
     blurb: 'For engineering teams shipping every week with multi-project tracking, automated AI triage, and tracker sync.',
-    cta: { label: 'Upgrade to Pro', action: 'checkout' },
+    cta: { label: 'Upgrade to Pro', action: 'register' },
     highlight: true,
     badge: 'Most Popular',
     pricing: {
       usd: {
         monthly: { amount: 14, formatted: '$14', period: '/ month', subtext: 'Billed monthly' },
         yearly: { amount: 140, formatted: '$140', period: '/ year', subtext: 'Equivalent to ~$11.60/mo' },
-        taxNote: 'Excludes applicable local sales tax',
+        taxNote: 'Managed Cloud SaaS · Excludes local sales tax',
         gateway: 'Stripe (Cards, Apple Pay, Google Pay)',
       },
       inr: {
@@ -104,14 +104,14 @@ export const PLANS: Plan[] = [
     name: 'Business',
     cadence: 'For scaling companies & agencies',
     blurb: 'For scaling companies with many applications, high volume, Single Sign-On, and enterprise compliance needs.',
-    cta: { label: 'Upgrade to Business', action: 'checkout' },
+    cta: { label: 'Upgrade to Business', action: 'register' },
     highlight: false,
     badge: 'Scale & Teams',
     pricing: {
       usd: {
         monthly: { amount: 39, formatted: '$39', period: '/ month', subtext: 'Billed monthly' },
         yearly: { amount: 390, formatted: '$390', period: '/ year', subtext: 'Equivalent to ~$32.50/mo' },
-        taxNote: 'Excludes applicable local sales tax',
+        taxNote: 'Managed Cloud SaaS · Excludes local sales tax',
         gateway: 'Stripe (Cards, Apple Pay, Google Pay)',
       },
       inr: {
@@ -140,7 +140,7 @@ export const PLANS: Plan[] = [
     name: 'Enterprise Custom',
     cadence: 'For air-gapped VPCs & regulated orgs',
     blurb: 'Complete sovereignty for organizations with strict compliance, SOC 2/HIPAA BAAs, and offline air-gapped networks.',
-    cta: { label: 'Contact Enterprise Sales', href: '/contact?topic=enterprise', action: 'link' },
+    cta: { label: 'Request License Key', action: 'enterprise' },
     highlight: false,
     badge: 'Air-Gapped & VPC',
     pricing: {
@@ -148,13 +148,13 @@ export const PLANS: Plan[] = [
         monthly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         yearly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         taxNote: 'Custom MSA & Vendor Procurement',
-        gateway: 'Direct Wire / ACH Transfer',
+        gateway: 'Offline Cryptographic Token (BFLIC)',
       },
       inr: {
         monthly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         yearly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         taxNote: 'Includes full GST B2B tax invoice',
-        gateway: 'Bank Transfer (NEFT / RTGS / Corporate Wire)',
+        gateway: 'Offline Cryptographic Token (BFLIC)',
       },
     },
     features: [
@@ -252,9 +252,11 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
       ],
     },
     {
-      category: 'Deployment, Storage & Support',
+      category: 'Deployment, Hosting & Storage',
       items: [
-        { name: 'Self-Hosted Docker & Docker Compose', free: 'Included', pro: 'Included', business: 'Included', enterprise: 'Air-gapped / K8s' },
+        { name: 'Deployment Target', free: 'Self-Hosted Docker / Compose', pro: 'BugFence Managed Cloud SaaS', business: 'BugFence Managed Cloud SaaS', enterprise: 'Private Air-Gapped VPC / K8s' },
+        { name: 'Payment Gateway Setup', free: 'None ($0 Free Forever)', pro: 'Stripe / Razorpay (Cloud SaaS)', business: 'Stripe / Razorpay (Cloud SaaS)', enterprise: 'None (Offline BFLIC Token)' },
+        { name: 'Outbound Network Phone-Home', free: 'Zero (100% Local)', pro: 'Hosted Cloud API', business: 'Hosted Cloud API', enterprise: 'Zero Guaranteed (Air-Gapped)' },
         { name: 'Database Backend', free: 'JSON / Postgres', pro: 'PostgreSQL / R2', business: 'PostgreSQL / R2', enterprise: 'Any SQL / S3 / R2' },
         { name: 'Support SLA', free: 'Community Forum', pro: '48h Email Support', business: '12h Priority Email & Chat', enterprise: '1h Critical SLA + CSM' },
       ],
@@ -264,8 +266,20 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
 
 export const PRICING_FAQ = [
   {
-    q: 'How does Indian Rupee (INR) vs International (USD) pricing work?',
-    a: 'BugFence supports dual-currency billing: USD ($) for international teams via Stripe, and INR (₹) for Indian developers and companies via Razorpay. When paying in INR, you can pay using UPI (Google Pay, PhonePe, Paytm), Netbanking, and Indian credit/debit cards, and receive compliant GST tax invoices for input tax credits.',
+    q: 'Do I need Stripe or Razorpay API keys to run BugFence Self-Hosted?',
+    a: 'No. BugFence Self-Hosted never requires Stripe or Razorpay credentials. The Self-Hosted Community edition runs 100% free with no payment provider or credit card. If your organization upgrades to Self-Hosted Enterprise, licensing is activated completely offline via a cryptographically signed BFLIC key (BUGFENCE_ENTERPRISE_KEY) with zero outbound network calls. Stripe and Razorpay are used exclusively for our Managed Cloud SaaS platform.',
+  },
+  {
+    q: 'What is the difference between Self-Hosted Community and Managed Cloud (Pro & Business)?',
+    a: 'Self-Hosted Community is our free open-core distribution that you deploy on your own Docker or Kubernetes infrastructure, keeping 100% of your data private on your servers. Pro and Business are fully managed Cloud SaaS tiers hosted by BugFence, including server-side AI triage, multi-project tracking, and automated 2-way sync with Linear, Jira, and GitHub without needing to maintain server infrastructure.',
+  },
+  {
+    q: 'How do I receive and apply an Enterprise License Key (BFLIC token)?',
+    a: 'You can request a token through our Enterprise License dialog or email enterprise@bugfence.io. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in the dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.',
+  },
+  {
+    q: 'How does Indian Rupee (INR) vs International (USD) pricing work for Cloud SaaS?',
+    a: 'BugFence Managed Cloud supports dual-currency billing: USD ($) for international teams via Stripe, and INR (₹) for Indian developers and companies via Razorpay. When paying in INR, you can pay using UPI (Google Pay, PhonePe, Paytm), Netbanking, and Indian credit/debit cards, and receive compliant GST tax invoices for input tax credits.',
   },
   {
     q: 'How do the four BugFence pricing tiers compare?',

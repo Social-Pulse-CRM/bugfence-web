@@ -56,28 +56,24 @@ export function Hero() {
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <ButtonLink
-              href={demoAppUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#sandbox"
               className="text-base font-semibold px-6 py-3 shadow-lg shadow-accent/20 bg-accent text-accent-fg hover:opacity-95"
             >
-              Launch Live Sandbox <ExternalLink className="size-4 ml-1" />
+              Try Connected Sandbox <ArrowDown className="size-4 ml-1" />
             </ButtonLink>
             <ButtonLink
-              href={`${demoDashboardUrl}/?demo=true`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#install"
               variant="secondary"
               className="text-base font-semibold px-6 py-3"
             >
-              1-Click Triage Console <ExternalLink className="size-4 ml-1 text-purple-400" />
+              Install the SDK <Terminal className="size-4 ml-1" />
             </ButtonLink>
             <ButtonLink
-              href="#sandbox"
+              href="/pricing/"
               variant="secondary"
               className="text-base font-semibold px-5 py-3 text-muted hover:text-fg"
             >
-              Explore Scenarios <ArrowDown className="size-4 ml-1" />
+              Pricing & Plans <ArrowRight className="size-4 ml-1" />
             </ButtonLink>
           </div>
 

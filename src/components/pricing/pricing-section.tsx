@@ -1,40 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
-import { CheckoutModal } from './checkout-modal';
+import { EnterpriseLicenseModal } from './enterprise-license-modal';
 import { PLANS, getFeatureMatrix, Plan, Currency } from '@/content/pricing';
 import { useCurrency } from '@/lib/currency';
-import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus, CreditCard, ArrowRight } from 'lucide-react';
+import { getRegisterUrl } from '@/lib/env';
+import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus, CreditCard, ArrowRight, KeyRound } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
 export function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(true);
   const { currency, setCurrency } = useCurrency();
-  const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
+  const [isEnterpriseModalOpen, setIsEnterpriseModalOpen] = useState(false);
 
   const featureMatrix = getFeatureMatrix(currency);
 
-  const handlePlanCta = (plan: Plan) => {
-    if (plan.cta.action === 'checkout') {
-      setCheckoutPlan(plan);
-    }
+  const getPlanHref = (plan: Plan) => {
+    if (plan.id === 'free') return '/#install';
+    return getRegisterUrl({
+      plan: plan.id,
+      billing: isAnnual ? 'annual' : 'monthly',
+      currency,
+    });
   };
 
   return (
     <Container className="py-12">
-      {/* Checkout Modal when triggered */}
-      {checkoutPlan && (
-        <CheckoutModal
-          plan={checkoutPlan}
-          currency={currency}
-          isAnnual={isAnnual}
-          onClose={() => setCheckoutPlan(null)}
-          onCurrencyChange={setCurrency}
-          onCadenceChange={setIsAnnual}
-        />
-      )}
+      {/* Interactive Enterprise License Walkthrough & Request Modal */}
+      <EnterpriseLicenseModal
+        isOpen={isEnterpriseModalOpen}
+        onClose={() => setIsEnterpriseModalOpen(false)}
+      />
 
       {/* Controls Bar: Currency Switcher + Billing Cadence Toggle */}
       <div className="mb-14 flex flex-col items-center justify-center gap-5">
@@ -43,7 +41,7 @@ export function PricingSection() {
           <div
             role="radiogroup"
             aria-label="Currency selection"
-            className="inline-flex items-center rounded-full border border-border bg-surface p-1 shadow-2xs"
+            className="inline-flex items-center rounded-full border border-border/80 bg-surface/90 p-1.5 shadow-sm backdrop-blur-xs"
           >
             <button
               type="button"
@@ -51,13 +49,15 @@ export function PricingSection() {
               aria-checked={currency === 'usd'}
               onClick={() => setCurrency('usd')}
               className={cn(
-                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                'inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 select-none',
                 currency === 'usd'
-                  ? 'bg-elevated text-fg shadow-2xs'
-                  : 'text-muted hover:text-fg'
+                  ? 'bg-accent text-accent-fg shadow-md shadow-accent/25 scale-[1.02]'
+                  : 'text-muted hover:text-fg hover:bg-elevated/70'
               )}
             >
-              <span>🇺🇸</span>
+              <span className="flex size-4 items-center justify-center rounded-full bg-black/15 font-mono text-[11px] font-bold">
+                $
+              </span>
               <span>USD ($)</span>
             </button>
             <button
@@ -66,13 +66,15 @@ export function PricingSection() {
               aria-checked={currency === 'inr'}
               onClick={() => setCurrency('inr')}
               className={cn(
-                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                'inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 select-none',
                 currency === 'inr'
-                  ? 'bg-elevated text-fg shadow-2xs'
-                  : 'text-muted hover:text-fg'
+                  ? 'bg-accent text-accent-fg shadow-md shadow-accent/25 scale-[1.02]'
+                  : 'text-muted hover:text-fg hover:bg-elevated/70'
               )}
             >
-              <span>🇮🇳</span>
+              <span className="flex size-4 items-center justify-center rounded-full bg-black/15 font-mono text-[11px] font-bold">
+                ₹
+              </span>
               <span>INR (₹)</span>
             </button>
           </div>
@@ -81,7 +83,7 @@ export function PricingSection() {
           <div
             role="radiogroup"
             aria-label="Billing cycle selection"
-            className="inline-flex items-center rounded-full border border-border bg-surface p-1 shadow-2xs"
+            className="inline-flex items-center rounded-full border border-border/80 bg-surface/90 p-1.5 shadow-sm backdrop-blur-xs"
           >
             <button
               type="button"
@@ -89,10 +91,10 @@ export function PricingSection() {
               aria-checked={!isAnnual}
               onClick={() => setIsAnnual(false)}
               className={cn(
-                'cursor-pointer rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                'cursor-pointer rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 select-none',
                 !isAnnual
-                  ? 'bg-elevated text-fg shadow-2xs'
-                  : 'text-muted hover:text-fg'
+                  ? 'bg-accent text-accent-fg shadow-md shadow-accent/25 scale-[1.02]'
+                  : 'text-muted hover:text-fg hover:bg-elevated/70'
               )}
             >
               Monthly billing
@@ -103,32 +105,45 @@ export function PricingSection() {
               aria-checked={isAnnual}
               onClick={() => setIsAnnual(true)}
               className={cn(
-                'inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold transition-all',
+                'inline-flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 select-none',
                 isAnnual
-                  ? 'bg-elevated text-fg shadow-2xs'
-                  : 'text-muted hover:text-fg'
+                  ? 'bg-accent text-accent-fg shadow-md shadow-accent/25 scale-[1.02]'
+                  : 'text-muted hover:text-fg hover:bg-elevated/70'
               )}
             >
               <span>Annual billing</span>
-              <span className="inline-flex items-center rounded-full bg-accent/15 px-2 py-0.2 text-[10px] font-bold text-accent">
+              <span
+                className={cn(
+                  'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-extrabold tracking-wide uppercase',
+                  isAnnual
+                    ? 'bg-black/20 text-accent-fg border border-white/20'
+                    : 'bg-accent/15 text-accent'
+                )}
+              >
                 Save ~20%
               </span>
             </button>
           </div>
         </div>
 
-        {/* Currency & Tax Notice */}
-        <p className="text-xs text-muted text-center max-w-lg">
-          {currency === 'inr' ? (
-            <span className="inline-flex items-center gap-1.5">
-              <span>🇮🇳 Indian billing via <strong>Razorpay</strong> (UPI, Netbanking, Cards) · <strong>18% GST invoice</strong> with GSTIN provided.</span>
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1.5">
-              <span>🇺🇸 Global billing via <strong>Stripe</strong> (All major international credit cards, Apple Pay, Google Pay).</span>
-            </span>
-          )}
-        </p>
+        {/* Currency & Tax Notice with clear Self-Hosted vs Cloud separation */}
+        <div className="text-center max-w-xl mx-auto space-y-1">
+          <p className="text-xs text-muted flex items-center justify-center gap-1.5">
+            <CreditCard className="size-3.5 text-accent shrink-0" />
+            {currency === 'inr' ? (
+              <span>
+                Managed Cloud SaaS billed via <strong>Razorpay</strong> (UPI, Netbanking, Cards) · <strong>18% GST invoice</strong> with GSTIN.
+              </span>
+            ) : (
+              <span>
+                Managed Cloud SaaS billed via <strong>Stripe</strong> (All major international credit cards, Apple Pay, Google Pay).
+              </span>
+            )}
+          </p>
+          <p className="text-[11px] text-muted/80">
+            Self-hosted instances run 100% free forever or unlock via offline Enterprise BFLIC key. No gateway keys needed.
+          </p>
+        </div>
       </div>
 
       {/* 4-Card Responsive Pricing Grid */}
@@ -225,29 +240,25 @@ export function PricingSection() {
                 <span>{pricingInfo.gateway}</span>
               </div>
 
-              {/* Call to Action */}
+              {/* Call to Action: Direct Registration Redirection or Enterprise Modal */}
               <div className="mt-4 pt-2">
-                {plan.cta.action === 'checkout' ? (
+                {plan.id === 'enterprise' ? (
                   <button
                     type="button"
-                    onClick={() => handlePlanCta(plan)}
-                    className={cn(
-                      'inline-flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all shadow-sm',
-                      plan.highlight
-                        ? 'bg-accent text-accent-fg hover:opacity-90 shadow-accent/20'
-                        : 'border border-border bg-elevated text-fg hover:bg-surface'
-                    )}
+                    onClick={() => setIsEnterpriseModalOpen(true)}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-elevated py-2.5 text-sm font-semibold text-fg hover:bg-surface transition-all shadow-sm cursor-pointer"
                   >
-                    <span>{plan.cta.label}</span>
-                    <ArrowRight className="size-4" />
+                    <KeyRound className="size-4 text-accent" />
+                    <span>Request License Key</span>
                   </button>
                 ) : (
                   <ButtonLink
-                    href={plan.cta.href || '/#install'}
+                    href={getPlanHref(plan)}
                     variant={plan.highlight ? 'primary' : 'secondary'}
                     className="w-full text-sm font-semibold"
                   >
-                    {plan.cta.label}
+                    <span>{plan.cta.label}</span>
+                    <ArrowRight className="size-4" />
                   </ButtonLink>
                 )}
               </div>
@@ -280,7 +291,7 @@ export function PricingSection() {
             </thead>
             <tbody>
               {featureMatrix.map((cat) => (
-                <tr key={cat.category} className="contents">
+                <Fragment key={cat.category}>
                   <tr className="bg-elevated/30 border-y border-border">
                     <td colSpan={5} className="p-2.5 font-bold uppercase tracking-wider text-[11px] text-accent">
                       {cat.category}
@@ -295,7 +306,7 @@ export function PricingSection() {
                       <td className="p-3 text-fg">{item.enterprise}</td>
                     </tr>
                   ))}
-                </tr>
+                </Fragment>
               ))}
             </tbody>
           </table>

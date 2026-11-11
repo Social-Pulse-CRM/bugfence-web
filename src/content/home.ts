@@ -18,7 +18,7 @@ export const FEATURES = [
 ] as const;
 
 export const FAQ = [
-  { q: 'Is redaction guaranteed?', a: 'No. Detection is pattern-based and best-effort: names, addresses and free-form text can slip through. Screen video is not masked. Use data-bugfence-mask / data-bugfence-block to fence sensitive areas, and review the preview before sending.' },
+  { q: 'How does redaction work for screenshots, DOM replays, and video recordings?', a: 'BugFence provides defense-in-depth privacy across all capture types: DOM screenshots and 30s session replays automatically mask passwords, credit cards, and tagged selectors (data-bugfence-mask). For screen video recordings, the studio includes built-in video redaction tools (drag-to-redact region boxes across custom timeframes), start/end timeline trimming, and device-side re-encoding, allowing reporters to review and redact any sensitive pixels before attachment.' },
   { q: 'Do reporters need an extension?', a: 'No. BugFence is a script or React component embedded in your app.' },
   { q: 'Where is data stored?', a: 'On infrastructure you run. The documented deployment model is self-hosted (Docker, Node, JSON files or PostgreSQL).' },
   { q: 'Does AI see my screenshots?', a: 'On-device heuristics make no network calls. Optional server-side AI triage sends only a minimal, re-sanitised text subset to the provider you configure; screenshots, video and replay are never sent.' },

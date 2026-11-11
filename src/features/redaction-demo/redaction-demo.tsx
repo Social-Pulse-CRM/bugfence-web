@@ -183,7 +183,7 @@ export function RedactionDemo() {
             )}
 
             <p className="mt-2 text-[11px] text-muted leading-tight">
-              Honest Notice: Pattern detection is best-effort. Screen video recordings are not masked. Form inputs and DOM trees can be explicitly protected via <code className="text-fg font-mono">data-bugfence-mask</code>.
+              Honest Notice: Pattern detection is best-effort. Screen video recordings include in-studio region redaction and timeline trimming controls. Form inputs and DOM trees can be explicitly protected via <code className="text-fg font-mono">data-bugfence-mask</code>.
             </p>
           </div>
         </div>

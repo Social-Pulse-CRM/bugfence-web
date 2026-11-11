@@ -40,8 +40,10 @@ export function detectDefaultCurrency(): Currency {
 
 export function useCurrency() {
   const [currency, setCurrencyState] = useState<Currency>('usd');
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
+    setMounted(true);
     // Initial detection on client mount
     const detected = detectDefaultCurrency();
     setCurrencyState(detected);
@@ -79,5 +81,5 @@ export function useCurrency() {
     }
   }, []);
 
-  return { currency, setCurrency };
+  return { currency, setCurrency, mounted };
 }
