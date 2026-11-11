@@ -137,37 +137,38 @@ export const PLANS: Plan[] = [
   },
   {
     id: 'enterprise',
-    name: 'Enterprise Custom',
-    cadence: 'For air-gapped VPCs & regulated orgs',
-    blurb: 'Complete sovereignty for organizations with strict compliance, SOC 2/HIPAA BAAs, and offline air-gapped networks.',
+    name: 'Enterprise & Sovereign',
+    cadence: 'Managed Cloud or Air-Gapped VPC',
+    blurb: 'Custom volume for high-scale apps, or complete data sovereignty for organizations with strict compliance, SOC 2 / HIPAA requirements, and air-gapped private VPCs.',
     cta: { label: 'Request License Key', action: 'enterprise' },
     highlight: false,
-    badge: 'Air-Gapped & VPC',
+    badge: 'Cloud & Air-Gapped',
     pricing: {
       usd: {
         monthly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         yearly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         taxNote: 'Custom MSA & Vendor Procurement',
-        gateway: 'Offline Cryptographic Token (BFLIC)',
+        gateway: 'Direct Invoicing or Offline Token (BFLIC)',
       },
       inr: {
         monthly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         yearly: { amount: null, formatted: 'Custom', period: 'contract', subtext: 'Billed annually' },
         taxNote: 'Includes full GST B2B tax invoice',
-        gateway: 'Offline Cryptographic Token (BFLIC)',
+        gateway: 'Direct Invoicing or Offline Token (BFLIC)',
       },
     },
     features: [
       'Unlimited projects & teams',
       'Custom seat volume (50+ triagers)',
-      'Custom / Unlimited monthly report ingestion',
-      'Dedicated or BYOS cloud media storage',
+      'Custom ingestion (15k–100k+ on Cloud or Unlimited on Self-Hosted)',
+      'Dedicated or BYOS cloud media storage (S3 / GCS / Local Disk)',
       'Custom data & video retention policies',
-      'Air-gapped private VPC deployment',
-      '100% Offline Cryptographic Licence (BFLIC token)',
+      'Choice of Managed Cloud SaaS or Air-Gapped Private VPC',
+      '100% Offline Cryptographic Licence (BFLIC token) for VPCs',
       'Zero outbound network telemetry guaranteed',
-      'HIPAA BAA & SOC 2 Type II compliance pack',
-      'Custom SAML 2.0 identity federation',
+      'SOC 2 Type II Readiness Pack & Vendor Security Documentation',
+      'HIPAA-Ready Architecture & Client-Side PHI Fencing (BAA for Cloud)',
+      'Enterprise SSO (OIDC & SAML via Okta, Azure AD, Keycloak)',
       '1-hour critical response SLA & dedicated solutions engineer',
     ],
   },
@@ -225,8 +226,9 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
         { name: 'Custom Mask & Block CSS Selectors', free: 'Included', pro: 'Included', business: 'Included', enterprise: 'Included' },
         { name: 'Air-Gapped VPC / 100% Offline Cryptographic Licence', free: '—', pro: '—', business: '—', enterprise: 'Included (BFLIC...)' },
         { name: 'Zero Phone-Home Network Pings', free: 'Included', pro: 'Included', business: 'Included', enterprise: 'Guaranteed' },
-        { name: 'SSO (SAML 2.0 / Okta / Azure AD / OIDC)', free: '—', pro: '—', business: 'Included', enterprise: 'Included' },
-        { name: 'Enterprise Audit Trail & BAA Support', free: '—', pro: '—', business: '—', enterprise: 'Included' },
+        { name: 'SSO (OIDC & SAML via Okta / Azure AD / Keycloak)', free: '—', pro: '—', business: 'Included', enterprise: 'Included' },
+        { name: 'SOC 2 Type II Readiness Pack & Vendor Security Review', free: 'Architectural Controls', pro: 'Security Review', business: 'Security Review', enterprise: 'Full Readiness Pack' },
+        { name: 'HIPAA-Ready Architecture & Client-Side PHI Fencing', free: 'Client-Side Fencing', pro: 'Client-Side Fencing', business: 'Client-Side Fencing', enterprise: 'HIPAA BAA (Cloud) & Client-Side Fencing' },
       ],
     },
     {
@@ -254,8 +256,8 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
     {
       category: 'Deployment, Hosting & Storage',
       items: [
-        { name: 'Deployment Target', free: 'Self-Hosted Docker / Compose', pro: 'BugFence Managed Cloud SaaS', business: 'BugFence Managed Cloud SaaS', enterprise: 'Private Air-Gapped VPC / K8s' },
-        { name: 'Payment Gateway Setup', free: 'None ($0 Free Forever)', pro: 'Stripe / Razorpay (Cloud SaaS)', business: 'Stripe / Razorpay (Cloud SaaS)', enterprise: 'None (Offline BFLIC Token)' },
+        { name: 'Deployment Target', free: 'Self-Hosted Docker / Compose', pro: 'BugFence Managed Cloud SaaS', business: 'BugFence Managed Cloud SaaS', enterprise: 'Managed Cloud or Air-Gapped VPC' },
+        { name: 'Payment Gateway Setup', free: 'None ($0 Free Forever)', pro: 'Stripe / Razorpay (Cloud SaaS)', business: 'Stripe / Razorpay (Cloud SaaS)', enterprise: 'Direct Invoicing or Offline Token (BFLIC)' },
         { name: 'Outbound Network Phone-Home', free: 'Zero (100% Local)', pro: 'Hosted Cloud API', business: 'Hosted Cloud API', enterprise: 'Zero Guaranteed (Air-Gapped)' },
         { name: 'Database Backend', free: 'JSON / Postgres', pro: 'PostgreSQL / R2', business: 'PostgreSQL / R2', enterprise: 'Any SQL / S3 / R2' },
         { name: 'Support SLA', free: 'Community Forum', pro: '48h Email Support', business: '12h Priority Email & Chat', enterprise: '1h Critical SLA + CSM' },
@@ -266,6 +268,22 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
 
 export const PRICING_FAQ = [
   {
+    q: 'What happens if our team exceeds our monthly report cap (e.g. 6,000 reports on Business)?',
+    a: 'BugFence includes a 10% soft buffer quota so unexpected spikes or critical bug bursts never drop incoming reports. When approaching the 6,000 report threshold, you have two flexible paths without any service disruption: (1) Purchase on-demand Volume Booster Packs (+2,500 reports for $15 / ₹1,200) directly from the billing dashboard, or (2) Seamlessly transition to a Cloud Custom tier (15,000 to 100,000+ reports/mo) with dedicated retention policies.',
+  },
+  {
+    q: 'What is the difference between Cloud Custom (Business++) and Self-Hosted Enterprise?',
+    a: 'Both tiers are tailored for enterprise scale, but address different infrastructure requirements: Cloud Custom (Business++) is a fully managed BugFence SaaS deployment offering custom high-volume ingestion (15k–100k+ reports/month), dedicated database isolation, enterprise SLAs, and Okta/Azure AD SSO without requiring your team to manage servers. Self-Hosted Enterprise is designed for organizations with strict compliance or air-gapped networks (banking, healthcare, defense) who must deploy BugFence entirely within their own private AWS/GCP VPC or Kubernetes cluster, activated via an offline cryptographic BFLIC token with zero outbound phone-home pings.',
+  },
+  {
+    q: 'How does BugFence Self-Hosted work, and how do our engineers access the dashboard?',
+    a: 'BugFence Self-Hosted is distributed as an all-in-one production Docker Compose stack that bundles both the Ingestion API Server (port 4000) and the Evidence Console Dashboard UI (port 5000), fronted by a Caddy reverse proxy. When your team deploys BugFence in your VPC (e.g., at https://bugs.internal.company.com), your developers simply navigate to that internal URL in their browsers. You have full access to the complete visual triage dashboard, session replay player, and integrations entirely within your private network—zero connection to BugFence.io is ever required.',
+  },
+  {
+    q: 'How does the frontend SDK communicate with our self-hosted instance?',
+    a: 'The BugFence SDK (@socialpulsecrm/bugfence-react) is a client-side JavaScript package that mounts your reporting widget and executes privacy redaction directly inside end-users’ browsers. When initializing the SDK in your web application, you simply pass your self-hosted server URL as the endpoint: BugFence.init({ projectKey: "pk_live_...", endpoint: "https://bugs.internal.company.com/api/v1/reports" }). When a user submits an issue, the browser dispatches the report directly to your internal endpoint. BugFence central servers never receive, route, or observe your data.',
+  },
+  {
     q: 'Do I need Stripe or Razorpay API keys to run BugFence Self-Hosted?',
     a: 'No. BugFence Self-Hosted never requires Stripe or Razorpay credentials. The Self-Hosted Community edition runs 100% free with no payment provider or credit card. If your organization upgrades to Self-Hosted Enterprise, licensing is activated completely offline via a cryptographically signed BFLIC key (BUGFENCE_ENTERPRISE_KEY) with zero outbound network calls. Stripe and Razorpay are used exclusively for our Managed Cloud SaaS platform.',
   },
@@ -275,7 +293,7 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How do I receive and apply an Enterprise License Key (BFLIC token)?',
-    a: 'You can request a token through our Enterprise License dialog or email enterprise@bugfence.io. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in the dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.',
+    a: 'You can request a token through our Enterprise License dialog or email enterprise@bugfence.io. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in your self-hosted dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.',
   },
   {
     q: 'How does Indian Rupee (INR) vs International (USD) pricing work for Cloud SaaS?',
@@ -283,7 +301,7 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How do the four BugFence pricing tiers compare?',
-    a: 'BugFence is structured to support every stage of engineering: Free is an open-core tier for local testing and indie hackers (100 reports/mo, 1 GB storage, 1 project, 3 seats). Pro ($14/mo or ₹999/mo) is built for fast-shipping engineering teams (1,200 reports/mo, 15 GB storage, 5 projects, 5 seats, 2-way sync). Business ($39/mo or ₹2,799/mo) powers software agencies and scaling SaaS teams (6,000 reports/mo, 60 GB storage, 25 projects, 15 seats, SSO, white-labeling). Enterprise Custom is dedicated to regulated organizations requiring air-gapped private VPCs, SAML 2.0, HIPAA BAAs, custom quotas, and offline cryptographic license tokens.',
+    a: 'BugFence is structured to support every stage of engineering: Free is an open-core tier for local testing and indie hackers (100 reports/mo, 1 GB storage, 1 project, 3 seats). Pro ($14/mo or ₹999/mo) is built for fast-shipping engineering teams (1,200 reports/mo, 15 GB storage, 5 projects, 5 seats, 2-way sync). Business ($39/mo or ₹2,799/mo) powers software agencies and scaling SaaS teams (6,000 reports/mo, 60 GB storage, 25 projects, 15 seats, SSO, white-labeling). Enterprise & Sovereign supports both high-volume Managed Cloud applications and air-gapped private VPCs with custom quotas, OIDC/SAML SSO, and offline cryptographic license tokens.',
   },
   {
     q: 'How does annual billing work, and how much do I save?',
@@ -292,10 +310,6 @@ export const PRICING_FAQ = [
   {
     q: 'What is the difference between Guest Reporters and Team Seats?',
     a: 'A guest reporter is any QA tester, client, stakeholder, or end-user who submits a bug report through the widget or views the status of bugs they reported. All plans include unlimited guest reporters at zero cost ($0 / ₹0). Only internal team members who manage projects, triage issues, trigger coding agent workflows, or configure integrations require paid team seats (3 on Free, 5 on Pro, 15 on Business, custom on Enterprise).',
-  },
-  {
-    q: 'What happens if our team exceeds our monthly report cap?',
-    a: 'BugFence includes a 10% soft buffer quota before enforcing rate limits so critical bug reports are never lost during an unexpected surge or product launch. If you consistently exceed your quota, you can upgrade your plan or configure custom retention tiers.',
   },
   {
     q: 'How does the offline enterprise licence work (BFLIC token)?',

@@ -17,6 +17,7 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import { env } from '@/lib/env';
 
 interface EnterpriseLicenseModalProps {
   isOpen: boolean;
@@ -24,7 +25,7 @@ interface EnterpriseLicenseModalProps {
 }
 
 export function EnterpriseLicenseModal({ isOpen, onClose }: EnterpriseLicenseModalProps) {
-  const [activeTab, setActiveTab] = useState<'walkthrough' | 'request'>('walkthrough');
+  const [activeTab, setActiveTab] = useState<'walkthrough' | 'request'>(env.enableSelfHosted ? 'walkthrough' : 'request');
   const [copied, setCopied] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
   const [formData, setFormData] = useState({
@@ -107,10 +108,12 @@ export function EnterpriseLicenseModal({ isOpen, onClose }: EnterpriseLicenseMod
             </span>
             <div>
               <h2 id="enterprise-modal-title" className="text-base font-bold text-fg">
-                BugFence Enterprise License Key
+                {env.enableSelfHosted ? 'BugFence Enterprise & Sovereign License' : 'BugFence Enterprise Custom'}
               </h2>
               <p className="text-xs text-muted">
-                Offline Cryptographic Licensing for On-Premise &amp; Air-Gapped Private VPCs
+                {env.enableSelfHosted
+                  ? 'High-Volume Managed Cloud & Air-Gapped Private VPC Licensing'
+                  : 'High-Volume Cloud SaaS, Dedicated Retention & Custom SLAs'}
               </p>
             </div>
           </div>
@@ -125,34 +128,36 @@ export function EnterpriseLicenseModal({ isOpen, onClose }: EnterpriseLicenseMod
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex border-b border-border bg-bg/50 px-6 pt-3 gap-6">
-          <button
-            type="button"
-            onClick={() => setActiveTab('walkthrough')}
-            className={cn(
-              'pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5',
-              activeTab === 'walkthrough'
-                ? 'border-accent text-accent'
-                : 'border-transparent text-muted hover:text-fg'
-            )}
-          >
-            <Server className="size-3.5" />
-            <span>4-Step Activation Walkthrough</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('request')}
-            className={cn(
-              'pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5',
-              activeTab === 'request'
-                ? 'border-accent text-accent'
-                : 'border-transparent text-muted hover:text-fg'
-            )}
-          >
-            <Send className="size-3.5" />
-            <span>Request License Key</span>
-          </button>
-        </div>
+        {env.enableSelfHosted && (
+          <div className="flex border-b border-border bg-bg/50 px-6 pt-3 gap-6">
+            <button
+              type="button"
+              onClick={() => setActiveTab('walkthrough')}
+              className={cn(
+                'pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5',
+                activeTab === 'walkthrough'
+                  ? 'border-accent text-accent'
+                  : 'border-transparent text-muted hover:text-fg'
+              )}
+            >
+              <Server className="size-3.5" />
+              <span>4-Step Offline Walkthrough</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('request')}
+              className={cn(
+                'pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5',
+                activeTab === 'request'
+                  ? 'border-accent text-accent'
+                  : 'border-transparent text-muted hover:text-fg'
+              )}
+            >
+              <Send className="size-3.5" />
+              <span>Request License Key</span>
+            </button>
+          </div>
+        )}
 
         {/* Content Body */}
         <div className="max-h-[75vh] overflow-y-auto p-6 space-y-6">

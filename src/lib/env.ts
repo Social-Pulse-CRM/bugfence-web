@@ -13,6 +13,7 @@ const schema = z.object({
   docsUrl: z.string().url().optional(),
   githubUrl: z.string().url().optional(),
   contactEmail: z.string().email().optional(),
+  enableSelfHosted: z.boolean().default(true),
 });
 
 const empty = (v: string | undefined) => (v && v.trim() !== '' ? v.trim() : undefined);
@@ -30,6 +31,7 @@ export const env = schema.parse({
   docsUrl: empty(process.env.NEXT_PUBLIC_DOCS_URL),
   githubUrl: empty(process.env.NEXT_PUBLIC_GITHUB_URL),
   contactEmail: empty(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
+  enableSelfHosted: process.env.NEXT_PUBLIC_ENABLE_SELF_HOSTED !== 'false',
 });
 
 /**

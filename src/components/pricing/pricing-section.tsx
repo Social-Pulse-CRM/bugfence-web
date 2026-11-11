@@ -6,7 +6,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { EnterpriseLicenseModal } from './enterprise-license-modal';
 import { PLANS, getFeatureMatrix, Plan, Currency } from '@/content/pricing';
 import { useCurrency } from '@/lib/currency';
-import { getRegisterUrl } from '@/lib/env';
+import { getRegisterUrl, env } from '@/lib/env';
 import { Check, ShieldCheck, Sparkles, Server, Zap, Building2, Minus, CreditCard, ArrowRight, KeyRound } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
@@ -140,9 +140,15 @@ export function PricingSection() {
               </span>
             )}
           </p>
-          <p className="text-[11px] text-muted/80">
-            Self-hosted instances run 100% free forever or unlock via offline Enterprise BFLIC key. No gateway keys needed.
-          </p>
+          {env.enableSelfHosted ? (
+            <p className="text-[11px] text-muted/80">
+              Self-hosted instances run 100% free forever or unlock via offline Enterprise BFLIC key. No gateway keys needed.
+            </p>
+          ) : (
+            <p className="text-[11px] text-muted/80">
+              SOC 2 Type II readiness architecture, client-side PII fencing, and custom enterprise volume scaling.
+            </p>
+          )}
         </div>
       </div>
 
@@ -248,8 +254,17 @@ export function PricingSection() {
                     onClick={() => setIsEnterpriseModalOpen(true)}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-elevated py-2.5 text-sm font-semibold text-fg hover:bg-surface transition-all shadow-sm cursor-pointer"
                   >
-                    <KeyRound className="size-4 text-accent" />
-                    <span>Request License Key</span>
+                    {env.enableSelfHosted ? (
+                      <>
+                        <KeyRound className="size-4 text-accent" />
+                        <span>Request License Key</span>
+                      </>
+                    ) : (
+                      <>
+                        <Building2 className="size-4 text-accent" />
+                        <span>Contact Enterprise</span>
+                      </>
+                    )}
                   </button>
                 ) : (
                   <ButtonLink
