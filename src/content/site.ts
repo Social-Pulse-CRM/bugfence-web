@@ -5,6 +5,13 @@ export const SITE = {
     'Capture annotated screenshots, recordings and session replay with diagnostics. Sensitive data is redacted in the browser before anything is sent. Self-hostable.',
 } as const;
 
+export const ENTITY = {
+  legalName: 'SocialPulse CRM',
+  brandName: 'BugFence',
+  operatorStatement: 'BugFence is a software product owned and operated by SocialPulse CRM.',
+  taxStatement: 'All commercial licensing, contracts, and GST-compliant B2B invoicing are executed under SocialPulse CRM.',
+} as const;
+
 export const NAV = [
   { href: '/#sandbox', label: 'Sandbox' },
   { href: '/#how-it-works', label: 'How it works' },

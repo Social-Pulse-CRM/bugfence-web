@@ -49,12 +49,16 @@ const CONTACT_CHANNELS = [
 
 const CONTACT_FAQS = [
   {
+    q: 'Who is the legal contracting and billing entity for BugFence?',
+    a: 'BugFence is a software product developed, owned, and operated by SocialPulse CRM. All commercial agreements, Enterprise Master Services Agreements (MSAs), bank payments, and GST tax invoices are formally executed under SocialPulse CRM (Proprietorship / Registered Entity).',
+  },
+  {
     q: 'Do you offer an enterprise proof-of-concept (POC)?',
     a: 'Yes. We provide 30-day guided evaluation licenses with full access to the Enterprise edition, including offline cryptographic tokens (BFLIC), SAML 2.0 SSO, and dedicated architecture support.',
   },
   {
     q: 'How do Indian businesses receive GST tax invoices?',
-    a: 'When paying via Razorpay in INR (₹), simply provide your 15-digit GSTIN during checkout or email billing@socialpulsecrm.com. We generate a compliant B2B tax invoice with your GSTIN so you can claim 100% of the 18% input tax credit.',
+    a: 'When paying via Razorpay in INR (₹), simply provide your 15-digit GSTIN during checkout or email billing@socialpulsecrm.com. We generate an official, compliant B2B tax invoice issued by SocialPulse CRM featuring our registered 15-digit GSTIN so your organization can claim 100% of the 18% input tax credit (ITC).',
   },
   {
     q: 'How does the offline cryptographic license work in private VPCs?',

@@ -27,9 +27,9 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'overview',
         heading: '1. Overview and Architecture Principles',
         paragraphs: [
-          'BugFence ("BugFence", "we", "us", or "our", operated by SocialPulse CRM) builds privacy-first visual bug reporting, session replay, and automated diagnostics infrastructure for engineering teams.',
+          'BugFence ("BugFence", "we", "us", or "our") is a privacy-first visual bug reporting, session replay, and automated diagnostics infrastructure platform owned and operated by SocialPulse CRM (Proprietorship / Registered Entity).',
           'Unlike traditional monitoring or session recording tools that ingest raw, unredacted web pages, BugFence enforces privacy-by-construction: sensitive data is scrubbed in the browser before network transmission, and our self-hosted architecture ensures customer bug reports, video recordings, and diagnostic logs remain exclusively on your own infrastructure.',
-          'This Privacy Policy explains how information is handled across our marketing website (bugfence.dev), our software distribution, our customer support desk, our hosted SaaS services, and our ephemeral demo sandbox.',
+          'This Privacy Policy explains how information is handled across our marketing website (bug-fence.com), our software distribution, our customer support desk, our hosted SaaS services, and our ephemeral demo sandbox. All operations, corporate assets, and commercial contracts are conducted by SocialPulse CRM.',
         ],
       },
       {
@@ -41,7 +41,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         bullets: [
           'Self-Hosted Community & Enterprise VPC: Your organization operates the BugFence server (via Docker, Kubernetes, or Node.js) on your own private cloud or bare-metal infrastructure. In this model, your organization is the sole Data Controller and sole Data Processor. BugFence central servers receive zero customer bug reports, zero diagnostic media, and zero telemetry.',
           'BugFence Cloud / Hosted SaaS: If you utilize our multi-tenant cloud offering, your organization acts as the Data Controller, and BugFence acts as the Data Processor pursuant to our Data Processing Addendum (DPA).',
-          'Marketing Site & Commercial Accounts: BugFence acts as a Data Controller for visitors to bugfence.dev, purchaser billing contacts, customer support inquiries, and registered administrative accounts.',
+          'Marketing Site & Commercial Accounts: SocialPulse CRM (operating BugFence) acts as a Data Controller for visitors to bug-fence.com, purchaser billing contacts, customer support inquiries, and registered administrative accounts.',
         ],
       },
       {
@@ -110,7 +110,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'website-data',
         heading: '8. Website Visitors, Cookies, and Analytics',
         paragraphs: [
-          'On bugfence.dev, we do not utilize behavioral advertising cookies, cross-site tracking beacons, or third-party marketing pixels.',
+          'On bug-fence.com, we do not utilize behavioral advertising cookies, cross-site tracking beacons, or third-party marketing pixels.',
           'Standard HTTP server logs (IP address, user-agent, requested URL, timestamp) are retained temporarily by our edge infrastructure solely for DDoS mitigation, load balancing, and operational defense.',
           'If you submit a contact, demo, or licensing inquiry, we collect your name, business email, organization name, and message strictly to respond to your request.',
         ],
@@ -170,8 +170,8 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'agreement',
         heading: '1. Agreement to Terms',
         paragraphs: [
-          'These Terms of Service ("Terms") constitute a legally binding agreement between your organization ("Customer", "you", or "your") and BugFence ("BugFence", "we", "us", or "our", operated by SocialPulse CRM).',
-          'By accessing our website (bugfence.dev), downloading our software, integrating our SDK, or purchasing a subscription, you agree to be bound by these Terms and our Privacy Policy. If you are entering into these Terms on behalf of a company, you represent that you possess the legal authority to bind that entity.',
+          'These Terms of Service ("Terms") constitute a legally binding agreement between your organization ("Customer", "you", or "your") and SocialPulse CRM ("SocialPulse CRM", "we", "us", or "our"), the legal proprietor operating the software product BugFence and the website bug-fence.com.',
+          'By accessing our website (bug-fence.com), downloading our software, integrating our SDK, or purchasing a subscription, you agree to be bound by these Terms and our Privacy Policy. If you are entering into these Terms on behalf of a company, you represent that you possess the legal authority to bind that entity.',
         ],
       },
       {
@@ -224,9 +224,10 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'billing-taxes',
         heading: '6. Billing, Currency, and Tax Compliance',
         paragraphs: [
+          'Proprietor & Merchant of Record: SocialPulse CRM is the legal proprietor, merchant of record, and contracting party for all BugFence commercial services. Invoices, bank transfers, credit card merchant statements, and Razorpay payment records are issued under SocialPulse CRM.',
           'Subscription Terms: Paid subscriptions are billed in advance on a recurring monthly or annual basis via Stripe (USD) or Razorpay (INR).',
           'Renewal & Cancellation: Subscriptions automatically renew at the end of each billing cycle unless cancelled prior to renewal via the self-service dashboard or by contacting billing@socialpulsecrm.com. Cancellation takes effect at the conclusion of the current prepaid billing period.',
-          'Indian GST Compliance: For customers paying in Indian Rupees (₹) via Razorpay, valid 15-digit GSTIN details provided during checkout or billing setup will generate compliant B2B tax invoices reflecting 18% GST (CGST/SGST or IGST) for full input tax credit.',
+          'Indian GST Compliance: For customers paying in Indian Rupees (₹) via Razorpay, valid 15-digit GSTIN details provided during checkout or billing setup will generate compliant B2B tax invoices officially issued by SocialPulse CRM reflecting 18% GST (CGST/SGST or IGST) for full input tax credit (ITC).',
           'Refund Policy: We provide a 30-day money-back guarantee for first-time annual subscriptions. Monthly subscriptions are non-refundable once the billing period has commenced.',
         ],
       },
@@ -259,8 +260,8 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'governing-law',
         heading: '10. Governing Law and Dispute Resolution',
         paragraphs: [
-          'These Terms shall be governed by and construed in accordance with the laws of the jurisdiction specified in your commercial order form, without regard to conflict of law principles. In the absence of a specific agreement, these Terms are governed by the laws of India.',
-          'Any disputes arising under these Terms shall be resolved through good-faith negotiation, and failing that, through binding commercial arbitration in accordance with standard arbitration rules.',
+          'These Terms shall be governed by and construed in accordance with the laws of India. The courts having jurisdiction over the registered office of SocialPulse CRM shall have exclusive jurisdiction to settle any disputes arising under or in connection with these Terms or BugFence.',
+          'Any disputes arising under these Terms shall be resolved through good-faith negotiation, and failing that, through binding commercial arbitration in accordance with the Arbitration and Conciliation Act, 1996 of India.',
           'For formal legal notices, please contact legal@socialpulsecrm.com.',
         ],
       },
@@ -277,7 +278,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'zero-trackers',
         heading: '1. Zero Advertising Trackers Pledge',
         paragraphs: [
-          'BugFence is committed to transparent, privacy-respecting engineering. We do not use third-party advertising cookies, behavioral tracking pixels (e.g., Meta Pixel, TikTok Pixel, Google Remarketing), or cross-site data broker scripts anywhere on bugfence.dev or within our software.',
+          'BugFence is committed to transparent, privacy-respecting engineering. We do not use third-party advertising cookies, behavioral tracking pixels (e.g., Meta Pixel, TikTok Pixel, Google Remarketing), or cross-site data broker scripts anywhere on bug-fence.com or within our software.',
           'We believe developers and engineering teams deserve an experience that respects their digital sovereignty.',
         ],
       },
@@ -326,7 +327,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'scope-applicability',
         heading: '1. Scope and Applicability',
         paragraphs: [
-          'This Data Processing Addendum ("DPA") supplements the BugFence Terms of Service between Customer and BugFence (SocialPulse CRM) whenever BugFence processes Customer Personal Data subject to European Data Protection Law (GDPR, UK GDPR), the California Consumer Privacy Act (CCPA/CPRA), or the Indian Digital Personal Data Protection Act (DPDP).',
+          'This Data Processing Addendum ("DPA") supplements the BugFence Terms of Service between Customer and SocialPulse CRM (operating BugFence) whenever personal data is processed subject to European Data Protection Law (GDPR, UK GDPR), the California Consumer Privacy Act (CCPA/CPRA), or the Indian Digital Personal Data Protection Act (DPDP).',
         ],
       },
       {
@@ -420,7 +421,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'website-accessibility',
         heading: '3. Website & Documentation Accessibility',
         paragraphs: [
-          'Our marketing website (bugfence.dev) is built with semantic HTML landmarks (main, nav, header, footer), structured heading hierarchies (h1-h4), minimum 4.5:1 text color contrast ratios, and copy-button status announcements for code snippets.',
+          'Our marketing website (bug-fence.com) is built with semantic HTML landmarks (main, nav, header, footer), structured heading hierarchies (h1-h4), minimum 4.5:1 text color contrast ratios, and copy-button status announcements for code snippets.',
         ],
       },
       {

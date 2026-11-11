@@ -1,16 +1,18 @@
 import { z } from 'zod';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 /** Public, non-secret site config. Only NEXT_PUBLIC_* values belong here. */
 const schema = z.object({
-  siteUrl: z.string().url().default('http://localhost:3000'),
-  appUrl: z.string().url().default('http://localhost:5000'),
+  siteUrl: z.string().url().default(isProd ? 'https://bug-fence.com' : 'http://localhost:3000'),
+  appUrl: z.string().url().default(isProd ? 'https://app.bug-fence.com' : 'http://localhost:5000'),
   registerUrl: z.string().url().optional(),
   loginUrl: z.string().url().optional(),
-  demoAppUrl: z.string().url().default('http://localhost:3000'),
-  demoDashboardUrl: z.string().url().default('http://localhost:5000'),
+  demoAppUrl: z.string().url().default(isProd ? 'https://demo.bug-fence.com' : 'http://localhost:3000'),
+  demoDashboardUrl: z.string().url().default(isProd ? 'https://app.bug-fence.com' : 'http://localhost:5000'),
   npmUrl: z.string().url().optional(),
   npmPackage: z.string().min(1).optional(),
-  docsUrl: z.string().url().optional(),
+  docsUrl: z.string().url().default(isProd ? 'https://docs.bug-fence.com' : 'https://docs.bug-fence.com'),
   githubUrl: z.string().url().optional(),
   contactEmail: z.string().email().optional(),
   enableSelfHosted: z.boolean().default(true),

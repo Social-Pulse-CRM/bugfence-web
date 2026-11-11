@@ -52,6 +52,16 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path || '' }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://bug-fence.com' }}
+          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL || '' }}
+          NEXT_PUBLIC_APP_REGISTER_URL: ${{ vars.NEXT_PUBLIC_APP_REGISTER_URL || '' }}
+          NEXT_PUBLIC_APP_LOGIN_URL: ${{ vars.NEXT_PUBLIC_APP_LOGIN_URL || '' }}
+          NEXT_PUBLIC_NPM_URL: ${{ vars.NEXT_PUBLIC_NPM_URL || '' }}
+          NEXT_PUBLIC_NPM_PACKAGE: ${{ vars.NEXT_PUBLIC_NPM_PACKAGE || '' }}
+          NEXT_PUBLIC_DOCS_URL: ${{ vars.NEXT_PUBLIC_DOCS_URL || '' }}
+          NEXT_PUBLIC_GITHUB_URL: ${{ vars.NEXT_PUBLIC_GITHUB_URL || '' }}
+          NEXT_PUBLIC_CONTACT_EMAIL: ${{ vars.NEXT_PUBLIC_CONTACT_EMAIL || '' }}
+          CUSTOM_DOMAIN: 'true'
 
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'

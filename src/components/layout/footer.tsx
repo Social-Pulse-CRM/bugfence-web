@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Container } from '@/components/ui/container';
-import { FOOTER, SITE } from '@/content/site';
+import { FOOTER, SITE, ENTITY } from '@/content/site';
 import { Shield, ShieldCheck, Heart, Server } from 'lucide-react';
 import { env } from '@/lib/env';
 
@@ -52,10 +52,15 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-xs text-muted sm:flex-row">
-          <p>
-            &copy; {currentYear} {SITE.name}. All rights reserved.
-          </p>
-          <p className="flex items-center gap-1.5">
+          <div className="space-y-1 text-center sm:text-left">
+            <p>
+              &copy; {currentYear} {ENTITY.legalName}. All rights reserved.
+            </p>
+            <p className="text-[11px] text-muted/80">
+              {ENTITY.operatorStatement} {ENTITY.taxStatement}
+            </p>
+          </div>
+          <p className="flex items-center gap-1.5 text-center sm:text-right">
             Privacy-first engineering for modern software teams.
           </p>
         </div>

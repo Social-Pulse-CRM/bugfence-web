@@ -130,6 +130,7 @@ export const PLANS: Plan[] = [
       'Single Sign-On (SAML 2.0 / OIDC / Okta / Azure AD)',
       'Cross-issue semantic clustering & duplicate deduplication',
       '100% White-Label: custom logo, custom domain & email styling',
+      'Overage Protection: On-demand Booster Packs (+2,500 reports)',
       'Sentry, Datadog, PagerDuty & HMAC-signed webhooks',
       'Automated PII scrubbing verification audits',
       '12h priority email & Slack triage channel',
@@ -199,6 +200,7 @@ export function getFeatureMatrix(currency: Currency): FeatureMatrixCategory[] {
         { name: 'Team Seats (Full triagers)', free: '3', pro: '5', business: '15', enterprise: 'Custom (50+)' },
         { name: 'Guest Reporters (End-users / QA)', free: 'Unlimited (Free)', pro: 'Unlimited (Free)', business: 'Unlimited (Free)', enterprise: 'Unlimited (Free)' },
         { name: 'Monthly Report Quota', free: '100 / mo', pro: '1,200 / mo', business: '6,000 / mo', enterprise: 'Custom / Unlimited' },
+        { name: 'Quota Overage Options', free: 'None (Upgrade to Pro)', pro: 'Upgrade to Business', business: 'On-Demand Booster Packs (+2,500 reports)', enterprise: 'Custom / Unlimited' },
         { name: 'Media Storage Capacity', free: '1 GB', pro: '15 GB', business: '60 GB', enterprise: 'Dedicated / BYOS' },
         { name: 'Report Data Retention', free: '14 days', pro: '90 days', business: '365 days', enterprise: '730 days / Custom' },
         { name: 'Media Storage Retention', free: '7 days', pro: '30 days', business: '90 days', enterprise: '365 days / Custom' },
@@ -277,7 +279,7 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How does BugFence Self-Hosted work, and how do our engineers access the dashboard?',
-    a: 'BugFence Self-Hosted is distributed as an all-in-one production Docker Compose stack that bundles both the Ingestion API Server (port 4000) and the Evidence Console Dashboard UI (port 5000), fronted by a Caddy reverse proxy. When your team deploys BugFence in your VPC (e.g., at https://bugs.internal.company.com), your developers simply navigate to that internal URL in their browsers. You have full access to the complete visual triage dashboard, session replay player, and integrations entirely within your private network—zero connection to BugFence.io is ever required.',
+    a: 'BugFence Self-Hosted is distributed as an all-in-one production Docker Compose stack that bundles both the Ingestion API Server (port 4000) and the Evidence Console Dashboard UI (port 5000), fronted by a Caddy reverse proxy. When your team deploys BugFence in your VPC (e.g., at https://bugs.internal.company.com), your developers simply navigate to that internal URL in their browsers. You have full access to the complete visual triage dashboard, session replay player, and integrations entirely within your private network—zero connection to bug-fence.com is ever required.',
   },
   {
     q: 'How does the frontend SDK communicate with our self-hosted instance?',
@@ -293,11 +295,11 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How do I receive and apply an Enterprise License Key (BFLIC token)?',
-    a: 'You can request a token through our Enterprise License dialog or email enterprise@bugfence.io. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in your self-hosted dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.',
+    a: 'You can request a token through our Enterprise License dialog or email enterprise@bug-fence.com. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in your self-hosted dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.',
   },
   {
     q: 'How does Indian Rupee (INR) vs International (USD) pricing work for Cloud SaaS?',
-    a: 'BugFence Managed Cloud supports dual-currency billing: USD ($) for international teams via Stripe, and INR (₹) for Indian developers and companies via Razorpay. When paying in INR, you can pay using UPI (Google Pay, PhonePe, Paytm), Netbanking, and Indian credit/debit cards, and receive compliant GST tax invoices for input tax credits.',
+    a: 'BugFence Managed Cloud supports dual-currency billing: USD ($) for international teams via Stripe, and INR (₹) for Indian developers and companies via Razorpay. When paying in INR, you can pay using UPI (Google Pay, PhonePe, Paytm), Netbanking, and Indian credit/debit cards. Official GST tax invoices are issued under our legal entity SocialPulse CRM, complete with our registered 15-digit GSTIN for full B2B input tax credit (ITC).',
   },
   {
     q: 'How do the four BugFence pricing tiers compare?',
