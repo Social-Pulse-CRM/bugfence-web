@@ -1,4 +1,5 @@
 import { Hero } from '@/components/sections/hero';
+import { SandboxPortal } from '@/components/sections/sandbox-portal';
 import {
   PainPoints,
   HowItWorks,
@@ -24,6 +25,7 @@ export default function HomePage() {
       <JsonLd schema={getHomeFaqSchema()} />
 
       <Hero />
+      <SandboxPortal />
       <PainPoints />
       <HowItWorks />
 
