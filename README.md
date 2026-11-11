@@ -1,6 +1,6 @@
 # BugFence Web
 
-Official marketing, documentation, and pricing website for [BugFence](https://github.com/Social-Pulse-CRM/Crawler) — the privacy-first visual bug reporting and AI debugging intelligence platform.
+Official marketing, documentation, and pricing website for **BugFence** — the privacy-first visual bug reporting and AI debugging intelligence platform.
 
 Hosted live at: **[https://bug-fence.com](https://bug-fence.com)** (GitHub Pages)
 

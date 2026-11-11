@@ -28,7 +28,6 @@ export function getOrganizationSchema() {
       availableLanguage: ['English'],
     },
     sameAs: [
-      env.githubUrl ?? 'https://github.com/socialpulsecrm/Crawler',
       env.npmUrl ?? 'https://www.npmjs.com/package/@socialpulsecrm/bugfence-react',
       env.docsUrl ?? 'https://docs.bug-fence.com',
     ].filter(Boolean),

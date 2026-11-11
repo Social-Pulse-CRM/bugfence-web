@@ -13,7 +13,6 @@ const schema = z.object({
   npmUrl: z.string().url().optional(),
   npmPackage: z.string().min(1).optional(),
   docsUrl: z.string().url().default(isProd ? 'https://docs.bug-fence.com' : 'https://docs.bug-fence.com'),
-  githubUrl: z.string().url().optional(),
   contactEmail: z.string().email().optional(),
   enableSelfHosted: z.boolean().default(true),
 });
@@ -31,7 +30,6 @@ export const env = schema.parse({
   npmUrl: empty(process.env.NEXT_PUBLIC_NPM_URL),
   npmPackage: empty(process.env.NEXT_PUBLIC_NPM_PACKAGE),
   docsUrl: empty(process.env.NEXT_PUBLIC_DOCS_URL),
-  githubUrl: empty(process.env.NEXT_PUBLIC_GITHUB_URL),
   contactEmail: empty(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
   enableSelfHosted: process.env.NEXT_PUBLIC_ENABLE_SELF_HOSTED !== 'false',
 });
