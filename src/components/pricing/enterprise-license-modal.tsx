@@ -263,8 +263,8 @@ export function EnterpriseLicenseModal({ isOpen, onClose }: EnterpriseLicenseMod
             <form onSubmit={handleRequestSubmit} className="space-y-4">
               <div className="rounded-xl border border-border bg-elevated/30 p-3.5 text-xs text-muted">
                 Fill out the form below or email{' '}
-                <a href="mailto:enterprise@bug-fence.com" className="text-accent underline font-semibold">
-                  enterprise@bug-fence.com
+                <a href={`mailto:${env.emails.enterprise}`} className="text-accent underline font-semibold">
+                  {env.emails.enterprise}
                 </a>{' '}
                 directly. We issue 30-day full-feature offline trial tokens for VPC evaluations.
               </div>

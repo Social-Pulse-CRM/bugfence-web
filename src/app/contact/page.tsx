@@ -20,28 +20,28 @@ const CONTACT_CHANNELS = [
   {
     icon: Building2,
     title: 'Enterprise & Sales Licensing',
-    email: 'sales@socialpulsecrm.com',
+    email: env.emails.sales,
     desc: 'Air-gapped VPC deployments, BFLIC offline tokens, custom MSA & procurement.',
     accent: 'text-accent bg-accent/10',
   },
   {
     icon: Server,
     title: 'Technical Support & Architecture',
-    email: 'support@socialpulsecrm.com',
+    email: env.emails.support,
     desc: 'Docker setups, PostgreSQL storage, MCP server for Claude/Cursor, and source maps.',
     accent: 'text-secondary bg-secondary/10',
   },
   {
     icon: CreditCard,
     title: 'Billing, Stripe & Razorpay GST',
-    email: 'billing@socialpulsecrm.com',
+    email: env.emails.billing,
     desc: 'Subscription management, UPI / card payments, and 18% GST B2B tax invoices.',
     accent: 'text-accent bg-accent/10',
   },
   {
     icon: Shield,
     title: 'Security & Responsible Disclosure',
-    email: 'security@socialpulsecrm.com',
+    email: env.emails.security,
     desc: 'Vulnerability disclosures and security audit documentation. See security.txt.',
     accent: 'text-red-500 bg-red-500/10',
   },
@@ -58,7 +58,7 @@ const CONTACT_FAQS = [
   },
   {
     q: 'How do Indian businesses receive GST tax invoices?',
-    a: 'When paying via Razorpay in INR (₹), simply provide your 15-digit GSTIN during checkout or email billing@socialpulsecrm.com. We generate an official, compliant B2B tax invoice issued by SocialPulse CRM featuring our registered 15-digit GSTIN so your organization can claim 100% of the 18% input tax credit (ITC).',
+    a: `When paying via Razorpay in INR (₹), simply provide your 15-digit GSTIN during checkout or email ${env.emails.billing}. We generate an official, compliant B2B tax invoice issued by SocialPulse CRM featuring our registered 15-digit GSTIN so your organization can claim 100% of the 18% input tax credit (ITC).`,
   },
   {
     q: 'How does the offline cryptographic license work in private VPCs?',

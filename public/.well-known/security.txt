@@ -1,4 +1,4 @@
-Contact: mailto:security@bug-fence.com
+Contact: mailto:support@bugfence.com
 Expires: 2027-11-10T00:00:00.000Z
 Preferred-Languages: en
 Canonical: https://bug-fence.com/.well-known/security.txt

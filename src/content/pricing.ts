@@ -1,3 +1,5 @@
+import { env } from '@/lib/env';
+
 export type Currency = 'usd' | 'inr';
 
 export interface PlanPrice {
@@ -295,7 +297,7 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How do I receive and apply an Enterprise License Key (BFLIC token)?',
-    a: 'You can request a token through our Enterprise License dialog or email enterprise@bug-fence.com. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in your self-hosted dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.',
+    a: `You can request a token through our Enterprise License dialog or email ${env.emails.enterprise}. Once issued, your cryptographically signed BFLIC token can be set via environment variable (BUGFENCE_ENTERPRISE_KEY=BFLIC...) or pasted directly into Settings > Plan & Billing in your self-hosted dashboard. It verifies instantly offline using local HMAC-SHA256 signatures with zero phone-home calls.`,
   },
   {
     q: 'How does Indian Rupee (INR) vs International (USD) pricing work for Cloud SaaS?',

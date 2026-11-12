@@ -1,3 +1,5 @@
+import { env } from '@/lib/env';
+
 export type LegalSection = {
   id?: string;
   heading?: string;
@@ -154,7 +156,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         id: 'contact',
         heading: '12. Privacy Desk & Inquiries',
         paragraphs: [
-          'For questions regarding this policy, to exercise your data subject rights, or to request a signed Data Processing Addendum (DPA), please reach our dedicated privacy team at privacy@socialpulsecrm.com.',
+          `For questions regarding this policy, to exercise your data subject rights, or to request a signed Data Processing Addendum (DPA), please reach our dedicated privacy team at ${env.emails.privacy}.`,
         ],
       },
     ],
@@ -226,7 +228,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         paragraphs: [
           'Proprietor & Merchant of Record: SocialPulse CRM is the legal proprietor, merchant of record, and contracting party for all BugFence commercial services. Invoices, bank transfers, credit card merchant statements, and Razorpay payment records are issued under SocialPulse CRM.',
           'Subscription Terms: Paid subscriptions are billed in advance on a recurring monthly or annual basis via Stripe (USD) or Razorpay (INR).',
-          'Renewal & Cancellation: Subscriptions automatically renew at the end of each billing cycle unless cancelled prior to renewal via the self-service dashboard or by contacting billing@socialpulsecrm.com. Cancellation takes effect at the conclusion of the current prepaid billing period.',
+          `Renewal & Cancellation: Subscriptions automatically renew at the end of each billing cycle unless cancelled prior to renewal via the self-service dashboard or by contacting ${env.emails.billing}. Cancellation takes effect at the conclusion of the current prepaid billing period.`,
           'Indian GST Compliance: For customers paying in Indian Rupees (₹) via Razorpay, valid 15-digit GSTIN details provided during checkout or billing setup will generate compliant B2B tax invoices officially issued by SocialPulse CRM reflecting 18% GST (CGST/SGST or IGST) for full input tax credit (ITC).',
           'Refund Policy: We provide a 30-day money-back guarantee for first-time annual subscriptions. Monthly subscriptions are non-refundable once the billing period has commenced.',
         ],
@@ -262,7 +264,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         paragraphs: [
           'These Terms shall be governed by and construed in accordance with the laws of India. The courts having jurisdiction over the registered office of SocialPulse CRM shall have exclusive jurisdiction to settle any disputes arising under or in connection with these Terms or BugFence.',
           'Any disputes arising under these Terms shall be resolved through good-faith negotiation, and failing that, through binding commercial arbitration in accordance with the Arbitration and Conciliation Act, 1996 of India.',
-          'For formal legal notices, please contact legal@socialpulsecrm.com.',
+          `For formal legal notices, please contact ${env.emails.legal}.`,
         ],
       },
     ],
@@ -383,7 +385,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         heading: '7. Assistance and Data Erasure',
         paragraphs: [
           'BugFence shall assist Customer in responding to verified data subject requests under GDPR and CCPA. Upon termination of services, Customer may trigger complete workspace erasure via our authenticated APIs, with confirmation of deletion issued via a cryptographic 24-hour receipt.',
-          'To request a countersigned DPA with custom company schedules, please email dpa@socialpulsecrm.com.',
+          `To request a countersigned DPA with custom company schedules, please email ${env.emails.dpa}.`,
         ],
       },
     ],
@@ -429,7 +431,7 @@ export const LEGAL: Record<string, LegalDoc> = {
         heading: '4. Feedback and Assistance',
         paragraphs: [
           'We continually test our components using automated accessibility linters and manual screen reader testing (NVDA, VoiceOver).',
-          'If you encounter an accessibility barrier or require assistance, please contact our accessibility lead at accessibility@socialpulsecrm.com. We investigate and remediate reported accessibility barriers promptly.',
+          `If you encounter an accessibility barrier or require assistance, please contact our accessibility lead at ${env.emails.contact}. We investigate and remediate reported accessibility barriers promptly.`,
         ],
       },
     ],

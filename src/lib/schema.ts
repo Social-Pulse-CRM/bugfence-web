@@ -18,12 +18,12 @@ export function getOrganizationSchema() {
     parentOrganization: {
       '@type': 'Organization',
       name: 'SocialPulse CRM',
-      url: 'https://socialpulsecrm.com',
+      url: env.siteUrl,
     },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'sales, billing, and technical support',
-      email: env.contactEmail ?? 'billing@socialpulsecrm.com',
+      email: env.emails.billing,
       url: `${env.siteUrl}/contact/`,
       availableLanguage: ['English'],
     },
