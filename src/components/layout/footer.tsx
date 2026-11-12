@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Container } from '@/components/ui/container';
 import { FOOTER, SITE, ENTITY } from '@/content/site';
-import { Shield, ShieldCheck, Heart, Server } from 'lucide-react';
+import { Shield, ShieldCheck, Heart, Server, ExternalLink } from 'lucide-react';
 import { env } from '@/lib/env';
 
 export function Footer() {
@@ -38,13 +38,29 @@ export function Footer() {
             <nav key={group} aria-label={group}>
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-fg">{group}</p>
               <ul className="space-y-2.5 text-sm text-muted">
-                {links.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="hover:text-fg transition-colors">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
+                {links.map((l) => {
+                  const href = l.label === 'Documentation' ? (env.docsUrl || l.href) : l.href;
+                  const isExternal = href.startsWith('http');
+                  return (
+                    <li key={l.label}>
+                      {isExternal ? (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-fg transition-colors inline-flex items-center gap-1.5"
+                        >
+                          <span>{l.label}</span>
+                          <ExternalLink className="size-3 text-muted/70" />
+                        </a>
+                      ) : (
+                        <Link href={href} className="hover:text-fg transition-colors">
+                          {l.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           ))}

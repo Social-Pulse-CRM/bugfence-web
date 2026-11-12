@@ -13,9 +13,8 @@ export const ENTITY = {
 } as const;
 
 export const NAV = [
-  { href: '/#sandbox', label: 'Sandbox' },
   { href: '/#how-it-works', label: 'How it works' },
-  { href: '/#demo', label: 'Redaction demo' },
+  { href: '/#sandbox', label: 'Sandbox' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/security', label: 'Security' },
   { href: '/compare', label: 'Compare' },
@@ -26,6 +25,7 @@ export const FOOTER = {
     { href: '/pricing', label: 'Pricing' },
     { href: '/security', label: 'Security' },
     { href: '/compare', label: 'Compare' },
+    { href: 'https://docs.bug-fence.com', label: 'Documentation' },
   ],
   Company: [
     { href: '/about', label: 'About' },
