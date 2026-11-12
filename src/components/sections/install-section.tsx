@@ -3,14 +3,14 @@ import { InstallTabs, type InstallTab } from '@/components/code/install-tabs';
 import { env } from '@/lib/env';
 import { Code2, ExternalLink, Terminal, ShieldCheck } from 'lucide-react';
 
-const DEFAULT_PKG = '@socialpulsecrm/bugfence-react';
+const DEFAULT_PKG = '@social-pulse-crm/bugfence-react';
 
 export function InstallSection() {
   const pkg = env.npmPackage ?? DEFAULT_PKG;
 
   // If a custom npm registry / package URL is provided in env, display direct install;
   // otherwise provide the standard package mapping note
-  const npmrc = env.npmUrl ? '' : '# If installing from GitHub Packages scope:\n@socialpulsecrm:registry=https://npm.pkg.github.com\n\n';
+  const npmrc = env.npmUrl ? '' : '# If installing from GitHub Packages scope:\n@social-pulse-crm:registry=https://npm.pkg.github.com\n\n';
 
   const tabs: InstallTab[] = [
     {
@@ -31,7 +31,7 @@ export function InstallSection() {
     {
       id: 'docker',
       label: 'Self-Hosted Docker',
-      code: `# 1. Pull and run the BugFence ingestion server locally\ndocker run -d \\\n  --name bugfence-server \\\n  -p 4000:4000 \\\n  -v bugfence_data:/app/data \\\n  -e NODE_ENV=production \\\n  -e BUGFENCE_DATA_DIR=/app/data \\\n  ghcr.io/socialpulsecrm/bugfence-server:latest\n\n# 2. Verify server health\ncurl http://localhost:4000/api/v1/health`,
+      code: `# 1. Pull and run the BugFence ingestion server locally\ndocker run -d \\\n  --name bugfence-server \\\n  -p 4000:4000 \\\n  -v bugfence_data:/app/data \\\n  -e NODE_ENV=production \\\n  -e BUGFENCE_DATA_DIR=/app/data \\\n  ghcr.io/social-pulse-crm/bugfence-server:latest\n\n# 2. Verify server health\ncurl http://localhost:4000/api/v1/health`,
     },
     {
       id: 'mcp',

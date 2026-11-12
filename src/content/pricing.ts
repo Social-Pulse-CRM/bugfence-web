@@ -285,7 +285,7 @@ export const PRICING_FAQ = [
   },
   {
     q: 'How does the frontend SDK communicate with our self-hosted instance?',
-    a: 'The BugFence SDK (@socialpulsecrm/bugfence-react) is a client-side JavaScript package that mounts your reporting widget and executes privacy redaction directly inside end-users’ browsers. When initializing the SDK in your web application, you simply pass your self-hosted server URL as the endpoint: BugFence.init({ projectKey: "pk_live_...", endpoint: "https://bugs.internal.company.com/api/v1/reports" }). When a user submits an issue, the browser dispatches the report directly to your internal endpoint. BugFence central servers never receive, route, or observe your data.',
+    a: 'The BugFence SDK (@social-pulse-crm/bugfence-react) is a client-side JavaScript package that mounts your reporting widget and executes privacy redaction directly inside end-users’ browsers. When initializing the SDK in your web application, you simply pass your self-hosted server URL as the endpoint: BugFence.init({ projectKey: "pk_live_...", endpoint: "https://bugs.internal.company.com/api/v1/reports" }). When a user submits an issue, the browser dispatches the report directly to your internal endpoint. BugFence central servers never receive, route, or observe your data.',
   },
   {
     q: 'Do I need Stripe or Razorpay API keys to run BugFence Self-Hosted?',

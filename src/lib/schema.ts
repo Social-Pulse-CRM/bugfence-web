@@ -28,7 +28,7 @@ export function getOrganizationSchema() {
       availableLanguage: ['English'],
     },
     sameAs: [
-      env.npmUrl ?? 'https://www.npmjs.com/package/@socialpulsecrm/bugfence-react',
+      env.npmUrl ?? 'https://www.npmjs.com/package/@social-pulse-crm/bugfence-react',
       env.docsUrl ?? 'https://docs.bug-fence.com',
     ].filter(Boolean),
   };

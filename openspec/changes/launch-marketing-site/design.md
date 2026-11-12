@@ -1,6 +1,6 @@
 ## Context
 
-BugFence (repo `socialpulsecrm/Crawler`) is a self-hosted, privacy-first visual bug-reporting platform: zero-dependency Shadow DOM widget, Evidence Console dashboard, CLI, MCP server. Research inputs are in `docs/research/`. Core rule: **no fabricated content**; every claim traces to the product repo or a dated public source.
+BugFence (repo `social-pulse-crm/Crawler`) is a self-hosted, privacy-first visual bug-reporting platform: zero-dependency Shadow DOM widget, Evidence Console dashboard, CLI, MCP server. Research inputs are in `docs/research/`. Core rule: **no fabricated content**; every claim traces to the product repo or a dated public source.
 
 ## Goals / Non-Goals
 

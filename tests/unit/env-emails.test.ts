@@ -15,9 +15,10 @@ describe('Environment Email Configuration', () => {
     expect(env.emails.enterprise).toBe(env.emails.contact);
   });
 
-  it('does not contain any reference to socialpulsecrm in configured emails', () => {
+  it('does not contain any reference to social-pulse or socialpulse in configured emails', () => {
     Object.values(env.emails).forEach((email) => {
       expect(email.toLowerCase()).not.toContain('socialpulse');
+      expect(email.toLowerCase()).not.toContain('social-pulse');
       expect(email.toLowerCase()).toContain('bugfence');
     });
   });

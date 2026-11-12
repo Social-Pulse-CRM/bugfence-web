@@ -27,6 +27,6 @@ None (new repo).
 
 ## Impact
 
-- New repo only; no changes to the BugFence product repo (`socialpulsecrm/Crawler`).
+- New repo only; no changes to the BugFence product repo (`social-pulse-crm/Crawler`).
 - Blocked on owner decisions (see design.md "Open Questions"): final pricing, legal entity, contact emails, npm URL, whether Cloud SaaS exists, certification status.
 - Legal pages are templates and must be reviewed by counsel before launch.
