@@ -6,7 +6,7 @@ import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { NAV, SITE } from '@/content/site';
-import { env } from '@/lib/env';
+import { env, getLoginUrl } from '@/lib/env';
 import { Shield, Code2, LogIn, Menu, X, ExternalLink } from 'lucide-react';
 
 export function Header() {
@@ -57,9 +57,10 @@ export function Header() {
 
           <ThemeToggle />
 
-          {env.loginUrl && (
+          {getLoginUrl() && (
             <ButtonLink
-              href={env.loginUrl}
+              href={getLoginUrl()}
+              target="_self"
               variant="ghost"
               className="hidden sm:inline-flex text-xs font-semibold shrink-0"
             >

@@ -95,3 +95,21 @@ export function getRegisterUrl(params?: {
     return `${base}${qs ? `?${qs}` : ''}`;
   }
 }
+
+/** Canonical app sign-in destination, with the configured app URL as fallback. */
+export function getLoginUrl(): string {
+  return env.loginUrl || env.appUrl || env.demoDashboardUrl;
+}
+
+/** Shareable guest-demo URL understood by the dashboard auth bootstrap. */
+export function getDemoDashboardUrl(): string {
+  const base = env.demoDashboardUrl || env.appUrl;
+  try {
+    const url = new URL(base);
+    url.searchParams.set('demo', 'true');
+    url.hash = '/issues';
+    return url.toString();
+  } catch {
+    return `${base.replace(/\/$/, '')}/?demo=true#/issues`;
+  }
+}

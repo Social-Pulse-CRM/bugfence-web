@@ -44,7 +44,7 @@ export function getSoftwareApplicationSchema() {
     operatingSystem: 'Web, Linux, macOS, Windows, Self-Hosted (Docker, Node.js)',
     description: SITE.description,
     url: env.siteUrl,
-    softwareVersion: '1.0.4',
+    softwareVersion: '1.0.5',
     screenshot: `${env.siteUrl}/opengraph-image.png`,
     featureList: [
       'Client-side DOM redaction before network transmission',

@@ -3,7 +3,7 @@
 import { Container } from '@/components/ui/container';
 import { Card } from '@/components/ui/card';
 import { ButtonLink } from '@/components/ui/button';
-import { env } from '@/lib/env';
+import { env, getDemoDashboardUrl } from '@/lib/env';
 import {
   Zap,
   ExternalLink,
@@ -101,7 +101,7 @@ const SCENARIOS: Scenario[] = [
 
 export function SandboxPortal() {
   const demoAppUrl = env.demoAppUrl || 'http://localhost:3000';
-  const demoDashboardUrl = env.demoDashboardUrl || 'http://localhost:5000';
+  const demoDashboardUrl = getDemoDashboardUrl();
 
   return (
     <section id="sandbox" className="py-16 sm:py-24 border-t border-border bg-gradient-to-b from-bg to-surface/30">
@@ -129,7 +129,7 @@ export function SandboxPortal() {
                   <Terminal className="size-4" /> Reporter Experience · QA &amp; Users
                 </span>
                 <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-accent/20 text-accent font-mono">
-                  Port 3000
+                  Public demo
                 </span>
               </div>
               <h3 className="text-2xl font-bold text-fg">NovaCloud SaaS Demo Application</h3>
@@ -174,18 +174,18 @@ export function SandboxPortal() {
                   <Cpu className="size-4" /> Triage Experience · Developers &amp; Leads
                 </span>
                 <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono">
-                  Port 5000
+                  Shared guest access
                 </span>
               </div>
               <h3 className="text-2xl font-bold text-fg">Developer Triage Console</h3>
               <p className="text-sm text-muted leading-relaxed">
-                Access the engineering dashboard instantly with 1-click passwordless login. Review incoming reports, automated error deduplication, symbolicated stack traces, and 30-second rolling DOM session replays.
+                Open the dashboard as a shared, read-only guest. Explore seeded reports, issue grouping, stack traces, and available replay examples without creating an account.
               </p>
 
               <ul className="space-y-2.5 text-xs text-muted pt-3 border-t border-border/60">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="size-3.5 text-purple-400 shrink-0" />
-                  <span>1-Click passwordless demo access with preloaded issues</span>
+                  <span>One-click passwordless access to a read-only guest workspace</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="size-3.5 text-purple-400 shrink-0" />
@@ -193,20 +193,20 @@ export function SandboxPortal() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="size-3.5 text-purple-400 shrink-0" />
-                  <span>2-way sync with Linear, Jira, and GitHub Issues</span>
+                  <span>Sample reports are shared with other demo visitors</span>
                 </li>
               </ul>
             </div>
 
             <div className="mt-8 pt-5 border-t border-border/60">
               <ButtonLink
-                href={`${demoDashboardUrl}/?demo=true`}
+                href={demoDashboardUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="primary"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 min-h-11 px-6 text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md"
               >
-                Open Triage Console (New Window) <ExternalLink className="size-4 ml-1" />
+                Open read-only demo console <ExternalLink className="size-4 ml-1" />
               </ButtonLink>
             </div>
           </Card>
@@ -249,7 +249,7 @@ export function SandboxPortal() {
                       {scenario.telemetry}
                     </p>
                     <a
-                      href={`${demoAppUrl}/?scenario=${scenario.id}`}
+                      href={`${demoAppUrl.replace(/\/$/, '')}/?scenario=${encodeURIComponent(scenario.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex w-full items-center justify-between text-xs font-semibold text-accent hover:underline pt-1"
@@ -273,10 +273,10 @@ export function SandboxPortal() {
               </div>
               <div className="space-y-1">
                 <h4 className="text-base font-bold text-fg flex items-center gap-2">
-                  Zero Cloud Storage Inflation & Auto-Rolling Ephemeral Tenant
+                  Ephemeral demo storage
                 </h4>
                 <p className="text-xs sm:text-sm text-muted max-w-3xl leading-relaxed">
-                  Demo screenshots and session recordings are kept exclusively in isolated ephemeral storage with a 50MB hard quota ceiling and FIFO cap (max 30 reports). An automated 15-minute Janitor service purges demo reports older than 45 minutes, ensuring zero AWS S3/R2 storage costs.
+                  Demo report media uses a temporary store with a 50 MB media quota and a 30-report FIFO limit. A 15-minute cleanup sweep removes reports older than 45 minutes. This policy applies to the demo tenant; your deployment’s storage policy is configured separately.
                 </p>
               </div>
             </div>

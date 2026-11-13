@@ -2,15 +2,16 @@ import type { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/page-header';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
-import { Check, Shield, Cpu, Lock, Terminal, ExternalLink, HeartHandshake } from 'lucide-react';
+import { Check, Shield, Cpu, Lock, Terminal, ExternalLink, HeartHandshake, ArrowRight } from 'lucide-react';
+import { env, getDemoDashboardUrl, getLoginUrl } from '@/lib/env';
 
 export const metadata: Metadata = {
-  title: 'How BugFence Compares to Sentry, Jam, & Marker.io',
-  description: 'A transparent, respectful comparison of BugFence with Sentry, Jam, Marker.io, BugHerd, and LogRocket.',
+  title: 'BugFence Comparison & Recommendations for Engineering Teams',
+  description: 'Compare BugFence with reporting, observability, and session replay tools, then decide whether it fits your engineering workflow.',
   alternates: { canonical: '/compare/' },
   openGraph: {
-    title: 'How BugFence Compares - Sentry, Jam, Marker.io, BugHerd',
-    description: 'Respectful technical comparison: in-app widget vs extension, self-hosted VPC vs multi-tenant cloud.',
+    title: 'BugFence Comparison & Recommendations',
+    description: 'A practical comparison of in-app bug reporting, privacy controls, and deployment options.',
     url: '/compare/',
   },
 };
@@ -24,7 +25,7 @@ const PILLARS = [
   {
     icon: Shield,
     title: '100% Self-Hostable Private VPC',
-    description: 'Your user data never enters a third-party multi-tenant cloud. Deploy via Docker with local JSON storage or PostgreSQL in your own environment.',
+    description: 'When you self-host, reports and media remain on infrastructure you operate. Deploy with Docker, local JSON storage, or PostgreSQL.',
   },
   {
     icon: Terminal,
@@ -117,6 +118,32 @@ export default function ComparePage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* Recommendation guidance */}
+        <section id="recommendations" className="rounded-2xl border border-accent/25 bg-accent/5 p-6 sm:p-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold text-accent">Is BugFence a fit?</p>
+            <h2 className="mt-2 text-2xl font-bold text-fg">A practical recommendation for engineering teams</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Choose BugFence when you need reporters to submit visual issues from inside your app, want technical context alongside screenshots, and need control over where report data is stored. Its free Community edition is self-hosted; managed Cloud plans are available for teams that prefer a hosted service.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-border bg-surface p-5">
+              <h3 className="font-semibold text-fg">Good fit when</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">You want an embedded reporting flow, browser-side masking controls, issue triage, and a self-hosted deployment option.</p>
+            </div>
+            <div className="rounded-xl border border-border bg-surface p-5">
+              <h3 className="font-semibold text-fg">Consider another tool when</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">Your main need is continuous product analytics or passive recording of every user session rather than user-submitted bug reports.</p>
+            </div>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ButtonLink href={getDemoDashboardUrl()} target="_self">Try the read-only demo <ArrowRight className="size-4" /></ButtonLink>
+            <ButtonLink href={getLoginUrl()} target="_self" variant="secondary">Sign in to BugFence</ButtonLink>
+            <ButtonLink href={env.demoAppUrl} target="_blank" variant="ghost">Explore the reporter app <ExternalLink className="size-4" /></ButtonLink>
           </div>
         </section>
 
@@ -220,7 +247,9 @@ export default function ComparePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <ButtonLink href="/#install">Get Started with Community</ButtonLink>
-            <ButtonLink href="/contact/" variant="secondary">Request Enterprise Consultation</ButtonLink>
+            <ButtonLink href={getLoginUrl()} target="_self" variant="secondary">Sign in</ButtonLink>
+            <ButtonLink href={getDemoDashboardUrl()} target="_self" variant="secondary">Try the live demo</ButtonLink>
+            <ButtonLink href="/contact/" variant="ghost">Request Enterprise Consultation</ButtonLink>
           </div>
         </div>
       </Container>

@@ -55,7 +55,7 @@ export default function HomePage() {
             Stop Guessing Bugs. Start Debugging Real Evidence.
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
-            Integrate the zero-dependency widget in 5 minutes. No user extensions, no data leakage, and full self-hosting freedom.
+            Integrate the zero-dependency widget in 5 minutes. No reporter extensions, browser-side masking controls, and a self-hosted deployment option.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <ButtonLink href="#install" className="text-base font-semibold px-6 py-3">

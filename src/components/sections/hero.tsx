@@ -18,7 +18,6 @@ import {
 
 export function Hero() {
   const demoAppUrl = env.demoAppUrl || 'http://localhost:3000';
-  const demoDashboardUrl = env.demoDashboardUrl || 'http://localhost:5000';
 
   return (
     <section className="relative overflow-hidden pb-16 pt-12 sm:pb-24 sm:pt-20">
@@ -44,13 +43,13 @@ export function Hero() {
           <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl text-fg">
             Visual bug reports with developer diagnostics.{' '}
             <span className="text-accent underline decoration-accent/30 underline-offset-8">
-              Zero data leaks.
+              Redact before upload.
             </span>
           </h1>
 
           {/* Subheading */}
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted">
-            BugFence is an in-app reporting studio with annotated screenshots, recordings, and rolling 30-second DOM replay with full network & console logs. Sensitive credentials and PII are redacted directly in the browser before upload.
+            BugFence adds an in-app reporting studio for annotated screenshots, recordings, and optional rolling 30-second DOM replay. Sensitive fields can be masked in the browser before report data is sent to your BugFence server.
           </p>
 
           {/* Action CTAs */}
